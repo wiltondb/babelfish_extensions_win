@@ -52,8 +52,8 @@ PG_FUNCTION_INFO_V1(sqlvariantout);
 PG_FUNCTION_INFO_V1(sqlvariantrecv);
 PG_FUNCTION_INFO_V1(sqlvariantsend);
 
-bytea *convertVarcharToSQLVariantByteA(VarChar *vch, Oid coll);
-bytea *convertIntToSQLVariantByteA(int ret);
+extern PGDLLEXPORT bytea *convertVarcharToSQLVariantByteA(VarChar *vch, Oid coll);
+extern PGDLLEXPORT bytea *convertIntToSQLVariantByteA(int ret);
 
 /* extract coll related info*/
 extern HTAB *ht_oid2collid;
@@ -499,7 +499,7 @@ do_compare(char *oprname, bytea *arg1, bytea *arg2, Oid fncollation)
  * CAST functions to SQL_VARIANT
  */
 
-PG_FUNCTION_INFO_V1(datetime2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2sqlvariant);
 PG_FUNCTION_INFO_V1(datetime22sqlvariant);
 PG_FUNCTION_INFO_V1(smalldatetime2sqlvariant);
 PG_FUNCTION_INFO_V1(datetimeoffset2sqlvariant);
@@ -513,7 +513,7 @@ PG_FUNCTION_INFO_V1(smallmoney2sqlvariant);
 PG_FUNCTION_INFO_V1(bigint2sqlvariant);
 PG_FUNCTION_INFO_V1(int2sqlvariant);
 PG_FUNCTION_INFO_V1(smallint2sqlvariant);
-PG_FUNCTION_INFO_V1(tinyint2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tinyint2sqlvariant);
 PG_FUNCTION_INFO_V1(bit2sqlvariant);
 PG_FUNCTION_INFO_V1(varchar2sqlvariant);
 PG_FUNCTION_INFO_V1(nvarchar2sqlvariant);
@@ -1779,7 +1779,7 @@ datalength_sqlvariant(PG_FUNCTION_ARGS)
  * Retrieve PGbaseType code, dataLen, variable header length
  * for each base datatype on sql variant
  */
-extern void
+extern PGDLLIMPORT void
 TdsGetPGbaseType(uint8 variantBaseType, int *pgBaseType, int tempLen,
 					int *dataLen, int *variantHeaderLen);
 extern void
@@ -1987,7 +1987,8 @@ TdsGetPGbaseType(uint8 variantBaseType, int *pgBaseType, int tempLen,
 /*
  * set metadata on sqlvariant header for variable length datatypes
  */
-void TdsSetMetaData(bytea *result, int pgBaseType, int scale,
+extern PGDLLIMPORT void
+TdsSetMetaData(bytea *result, int pgBaseType, int scale,
 						int precision, int maxLen);
 void TdsSetMetaData(bytea *result, int pgBaseType, int scale,
 						int precision, int maxLen)
@@ -2028,7 +2029,7 @@ void TdsSetMetaData(bytea *result, int pgBaseType, int scale,
 	}
 }
 
-int
+extern PGDLLIMPORT int
 TdsPGbaseType(bytea *vlena);
 int
 TdsPGbaseType(bytea *vlena)
@@ -2040,7 +2041,7 @@ TdsPGbaseType(bytea *vlena)
     return SV_GET_TYPCODE_PTR(vlena);
 }
 
-void
+extern PGDLLIMPORT void
 TdsGetMetaData(bytea *result, int pgBaseType, int *scale,
                                                 int *precision, int *maxLen);
 void
@@ -2068,7 +2069,7 @@ TdsGetMetaData(bytea *result, int pgBaseType, int *scale,
     }
 }
 
-void
+extern PGDLLIMPORT void
 TdsGetVariantBaseType(int pgBaseType, int *variantBaseType,
                          bool *isBaseNum, bool *isBaseChar,
                          bool *isBaseDec, bool *isBaseBin,

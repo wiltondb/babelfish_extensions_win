@@ -710,7 +710,8 @@ is_user(Oid role_oid)
 	if (!HeapTupleIsValid(tuple))
 		is_user = false;
 
-	type = ((Form_authid_user_ext) GETSTRUCT(tuple))->type;
+	// todo: fixme
+	type = *((Form_authid_user_ext) GETSTRUCT(tuple))->type;
 	type_str = bpchar_to_cstring(&type);
 
 	if (strcmp(type_str, "S") != 0)
@@ -761,7 +762,8 @@ is_role(Oid role_oid)
 		is_role = false;
 	else
 	{
-		type = ((Form_authid_user_ext) GETSTRUCT(tuple))->type;
+		// todo: fixme
+		type = *((Form_authid_user_ext) GETSTRUCT(tuple))->type;
 		type_str = bpchar_to_cstring(&type);
 
 		if (strcmp(type_str, "R") != 0)
@@ -1304,6 +1306,7 @@ static Datum get_function_nspname(HeapTuple tuple, TupleDesc dsc);
 static Datum get_function_name(HeapTuple tuple, TupleDesc dsc);
 /* Condition function declaration */
 static bool is_multidb(void);
+static bool is_singledb(void);
 static bool is_singledb_exists_userdb(void);
 /* Rule validation function declaration */
 static bool check_exist(void *arg, HeapTuple tuple);
@@ -1397,7 +1400,7 @@ Rule must_match_rules_sysdb[] =
 	{"In multi-db mode, for each <name> in babelfish_sysdatabases, <name>_guest must also exist in babelfish_authid_user_ext",
 	 "babelfish_authid_user_ext", "rolname", NULL, get_name_guest, is_multidb, check_exist, NULL},
 	{"In single-db mode, for each <name> in babelfish_sysdatabases, <name>_guest must also exist in babelfish_authid_user_ext",
-         "babelfish_authid_user_ext", "rolname", NULL, get_name_guest, !is_multidb, check_exist, NULL}
+         "babelfish_authid_user_ext", "rolname", NULL, get_name_guest, is_singledb, check_exist, NULL}
 };
 
 /* babelfish_namespace_ext */
@@ -1840,6 +1843,12 @@ static bool
 is_multidb(void)
 {
 	return (MULTI_DB == get_migration_mode());
+}
+
+static bool
+is_singledb(void)
+{
+	return (SINGLE_DB == get_migration_mode());
 }
 
 /*****************************************

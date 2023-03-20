@@ -30,6 +30,8 @@
 
 #include "utils/numeric.h"
 
+#include "int128_win.h"
+
 /*
  * The scale which the number is actually stored.
  * For example: 100 will allow 2 decimal places of precision
@@ -72,7 +74,7 @@
 #define FIXEDDECIMAL_MIN (INT64_MIN/FIXEDDECIMAL_MULTIPLIER)
 
 /* Compiler must have a working 128 int type */
-typedef __int128 int128;
+//typedef __int128 int128;
 
 #ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
@@ -1692,21 +1694,24 @@ fixeddecimalmul(PG_FUNCTION_ARGS)
 {
 	int64		arg1 = PG_GETARG_INT64(0);
 	int64		arg2 = PG_GETARG_INT64(1);
-	int128		result;
 
 	/* We need to promote this to 128bit as we may overflow int64 here.
 	 * Remember that arg2 is the number multiplied by
 	 * FIXEDDECIMAL_MULTIPLIER, we must divide the result by this to get
 	 * the correct result.
 	 */
-	result = (int128) arg1 * arg2 / FIXEDDECIMAL_MULTIPLIER;
+	int128_win a1 = int128_win_from_int64(arg1);
+	int128_win a2 = int128_win_from_int64(arg2);
+	int128_win fm = int128_win_from_int64(FIXEDDECIMAL_MULTIPLIER);
+	int128_win product = int128_win_multiply(a1, a2);
+	int128_win result = int128_win_divide(product, fm, NULL);
 
-	if (result != ((int64) result))
+	if (0 != result.high && -1 != result.high)
 		ereport(ERROR,
 				(errcode(ERRCODE_NUMERIC_VALUE_OUT_OF_RANGE),
 				 errmsg("fixeddecimal out of range")));
 
-	PG_RETURN_INT64((int64) result);
+	PG_RETURN_INT64((int64) result.low);
 }
 
 Datum
@@ -1714,7 +1719,6 @@ fixeddecimaldiv(PG_FUNCTION_ARGS)
 {
 	int64		dividend = PG_GETARG_INT64(0);
 	int64		divisor = PG_GETARG_INT64(1);
-	int128		result;
 
 	if (divisor == 0)
 	{
@@ -1734,14 +1738,18 @@ fixeddecimaldiv(PG_FUNCTION_ARGS)
 	 * this can't overflow, but we can end up with a number that's too big for
 	 * int64
 	 */
-	result = (int128) dividend * FIXEDDECIMAL_MULTIPLIER / divisor;
+	int128_win d1 = int128_win_from_int64(dividend);
+	int128_win d2 = int128_win_from_int64(divisor);
+	int128_win fm = int128_win_from_int64(FIXEDDECIMAL_MULTIPLIER);
+	int128_win product = int128_win_multiply(d1, fm);
+	int128_win result = int128_win_divide(product, d2, NULL);
 
-	if (result != ((int64) result))
+	if (0 != result.high && -1 != result.high)
 		ereport(ERROR,
 				(errcode(ERRCODE_NUMERIC_VALUE_OUT_OF_RANGE),
 				 errmsg("fixeddecimal out of range")));
 
-	PG_RETURN_INT64((int64) result);
+	PG_RETURN_INT64((int64) result.low);
 }
 
 /* fixeddecimalabs()

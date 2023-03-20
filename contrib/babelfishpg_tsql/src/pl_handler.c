@@ -433,7 +433,7 @@ pltsql_pre_parse_analyze(ParseState *pstate, RawStmt *parseTree)
 				trigStmt = (CreateTrigStmt *) defel->arg;
 				if (trigStmt->args != NIL){
 					trig_schema = ((Value*)list_nth(((CreateTrigStmt *) trigStmt)->args,0))->val.str;
-					if ((trigStmt->relation->schemaname != NULL && strcasecmp(trig_schema, trigStmt->relation->schemaname)!=0)
+					if ((trigStmt->relation->schemaname != NULL && pg_strcasecmp(trig_schema, trigStmt->relation->schemaname)!=0)
 					|| trigStmt->relation->schemaname == NULL){
 					ereport(ERROR,
 						(errcode(ERRCODE_INTERNAL_ERROR),

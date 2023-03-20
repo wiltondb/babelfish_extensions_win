@@ -31,6 +31,9 @@
 #include "utils/numeric.h"
 #include <libxml/uri.h>
 
+#include "uint128_win.h"
+#define uint128 uint128_win
+
 #include "tds_typeio.h"
 #include "guc.h"
 

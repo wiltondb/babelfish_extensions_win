@@ -6,11 +6,11 @@
 #include "nodes/pathnodes.h"
 
 
-extern char *pltsql_default_locale;
-extern char *pltsql_server_collation_name;
+extern PGDLLIMPORT char *pltsql_default_locale;
+extern PGDLLIMPORT char *pltsql_server_collation_name;
 
 /* Dump and Restore */
-extern char *babelfish_restored_server_collation_name;
+extern PGDLLIMPORT char *babelfish_restored_server_collation_name;
 
 /* Set default encoding to UTF8 */
 #define COLL_DEFAULT_ENCODING PG_UTF8
@@ -117,7 +117,7 @@ extern bool collation_is_CI_AS(Oid colloid);
 extern bool is_valid_server_collation_name(const char *collname);
 extern Oid get_tsql_collation_oid(int persist_coll_id);
 extern int get_persist_collation_id(Oid coll_oid);
-extern int find_locale(const char *given_locale);
+extern PGDLLIMPORT int find_locale(const char *given_locale);
 extern int get_server_collation_collidx(void);
 extern Datum collation_list_internal(PG_FUNCTION_ARGS);
 extern Datum is_collated_ci_as_internal(PG_FUNCTION_ARGS);

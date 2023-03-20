@@ -342,7 +342,7 @@ static text *string_to_text(char *str);
 static char *tsql_get_constraintdef_worker(Oid constraintId, bool fullCommand,
 										 int prettyFlags, bool missing_ok);
 static char *tsql_printTypmod(const char *typname, int32 typmod, Oid typmodout);
-extern Datum translate_pg_type_to_tsql(PG_FUNCTION_ARGS);
+extern PGDLLIMPORT Datum translate_pg_type_to_tsql(PG_FUNCTION_ARGS);
 static char *tsql_format_type_extended(Oid type_oid, int32 typemod, bits16 flags);
 int tsql_print_function_arguments(StringInfo buf, HeapTuple proctup,
 		bool print_table_args, bool print_defaults, int** typmod_arr_arg, bool* has_tvp);
@@ -386,6 +386,8 @@ PG_FUNCTION_INFO_V1(tsql_get_constraintdef);
  * with "AS ", and no preceding line will look like that.
  */
 PG_FUNCTION_INFO_V1(tsql_get_functiondef);
+
+void tsql_print_function_rettype(StringInfo buf, HeapTuple proctup, int** typmod_arr_ret, int number_args);
 
 Datum
 tsql_get_functiondef(PG_FUNCTION_ARGS)

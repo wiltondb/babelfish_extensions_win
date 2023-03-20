@@ -225,7 +225,8 @@ get_tsql_error_details(ErrorData *edata,
 				key_word = strtok(tmp_keywords, "#");
 				while (key_word != NULL)
 				{
-					if (!strcasestr(edata->message, key_word))
+					// todo
+					if (!strstr(edata->message, key_word))
 					{
 						flag = false;
 						break;

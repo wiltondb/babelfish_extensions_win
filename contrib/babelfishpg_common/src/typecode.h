@@ -43,6 +43,17 @@
 
 #define TOTAL_TYPECODE_COUNT 33
 
+#define PG_FUNCTION_INFO_V1_DLLEXPORT(funcname) \
+extern PGDLLEXPORT Datum funcname(PG_FUNCTION_ARGS); \
+extern PGDLLEXPORT const Pg_finfo_record * CppConcat(pg_finfo_,funcname)(void); \
+const Pg_finfo_record * \
+CppConcat(pg_finfo_,funcname) (void) \
+{ \
+	static const Pg_finfo_record my_finfo = { 1 }; \
+	return &my_finfo; \
+} \
+extern int no_such_variable
+
 struct Node;
 
 typedef struct type_info
@@ -78,21 +89,21 @@ extern Oid tsql_smalldatetime_oid;
 extern Oid tsql_datetimeoffset_oid;
 
 extern Oid lookup_tsql_datatype_oid(const char *typename);
-extern bool is_tsql_bpchar_datatype(Oid oid);
-extern bool is_tsql_nchar_datatype(Oid oid);
-extern bool is_tsql_varchar_datatype(Oid oid);
-extern bool is_tsql_nvarchar_datatype(Oid oid);
-extern bool is_tsql_text_datatype(Oid oid);
-extern bool is_tsql_ntext_datatype(Oid oid);
-extern bool is_tsql_image_datatype(Oid oid);
-extern bool is_tsql_binary_datatype(Oid oid);
-extern bool is_tsql_varbinary_datatype(Oid oid);
-extern bool is_tsql_rowversion_datatype(Oid oid);
-extern bool is_tsql_timestamp_datatype(Oid oid);
-extern bool is_tsql_rowversion_or_timestamp_datatype(Oid oid);
-extern bool is_tsql_datetime2_datatype(Oid oid);
-extern bool is_tsql_smalldatetime_datatype(Oid oid);
-extern bool is_tsql_datetimeoffset_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_bpchar_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_nchar_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_varchar_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_nvarchar_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_text_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_ntext_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_image_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_binary_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_varbinary_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_rowversion_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_timestamp_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_rowversion_or_timestamp_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_datetime2_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_smalldatetime_datatype(Oid oid);
+extern PGDLLIMPORT bool is_tsql_datetimeoffset_datatype(Oid oid);
 
 extern void handle_type_and_collation(struct Node *node, Oid typid, Oid collationid);
 extern bool check_target_type_is_sys_varchar(Oid funcid);

@@ -51,9 +51,9 @@
 	 (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric)
 
 #define TSQLInstrumentation(metric)												\
-({	if ((pltsql_instr_plugin_ptr && (*pltsql_instr_plugin_ptr) && (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric))		\
+	if ((pltsql_instr_plugin_ptr && (*pltsql_instr_plugin_ptr) && (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric))	{	\
 		(*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric(metric);		\
-})
+  }
 
 #define TSQL_TXN_NAME_LIMIT 64 /* Transaction name limit */
 
@@ -1978,19 +1978,19 @@ extern bool pltsql_trace_exec_time;
 /* 
  * Sql variant functions for tdstypeio.c
  */
-extern void
+extern PGDLLIMPORT void
 TdsGetVariantBaseType(int pgBaseType, int *variantBaseType,
                                   bool *isBaseNum, bool *isBaseChar,
                                   bool *isBaseDec, bool *isBaseBin,
                                   bool *isBaseDate, int *variantHeaderLen);
 
-extern void
+extern PGDLLIMPORT void
 TdsGetPGbaseType(uint8 variantBaseType, int *pgBaseType, int tempLen, int *dataLen, int *variantHeaderLen);
-extern void
+extern PGDLLIMPORT void
 TdsSetMetaData(bytea *result, int pgBaseType, int scale, int precision, int maxLen);
-extern int
+extern PGDLLIMPORT int
 TdsPGbaseType(bytea *vlena);
-extern void
+extern PGDLLIMPORT void
 TdsGetMetaData(bytea *result, int pgBaseType, int *scale, int *precision, int *maxLen);
 
 /* 

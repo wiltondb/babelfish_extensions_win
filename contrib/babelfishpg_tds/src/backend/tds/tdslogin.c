@@ -86,12 +86,13 @@
 #ifndef ENABLE_GSS
 /*
  * Define a fake structure compatible with GSSAPI on Unix.
- */
+
 typedef struct
 {
 	void	   *value;
 	int			length;
 } gss_buffer_desc;
+ */
 #endif
 #endif							/* ENABLE_SSPI */
 

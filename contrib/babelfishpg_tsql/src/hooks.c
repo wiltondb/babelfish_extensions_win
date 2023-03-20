@@ -925,8 +925,8 @@ pltsql_post_transform_table_definition(ParseState *pstate, RangeVar* relation, c
 	 */
 	temp = strpbrk(table_name_start, ". ");
 	while (temp && temp[0] != ' ' &&
-		strncasecmp(relname, table_name_start, strlen(relname)) != 0 &&
-		strncasecmp(relname, table_name_start + 1, strlen(relname)) != 0) /* match after skipping delimiter */
+		pg_strncasecmp(relname, table_name_start, strlen(relname)) != 0 &&
+		pg_strncasecmp(relname, table_name_start + 1, strlen(relname)) != 0) /* match after skipping delimiter */
 	{
 		temp += 1;
 		table_name_start = temp;
@@ -945,7 +945,7 @@ pltsql_post_transform_table_definition(ParseState *pstate, RangeVar* relation, c
 	stmt->objtype = OBJECT_TABLE;
 
 	/* Only store original_name if there's a difference, and if the difference is only in capitalization */
-	if (strncmp(relname, original_name, strlen(relname)) != 0 && strncasecmp(relname, original_name, strlen(relname)) == 0)
+	if (strncmp(relname, original_name, strlen(relname)) != 0 && pg_strncasecmp(relname, original_name, strlen(relname)) == 0)
 	{
 		/* add "ALTER TABLE SET (bbf_original_table_name=<original_name>)" to alist so that original_name will be stored in pg_class.reloptions */
 		cmd_orig_name = makeNode(AlterTableCmd);
@@ -1303,7 +1303,7 @@ get_tsql_trigger_oid(List *object, const char *tsql_trigger_name, bool object_fr
 			relation = RelationIdGetRelation(reloid);
 			pg_trigger_physical_schema = get_namespace_name(get_rel_namespace(pg_trigger->tgrelid));
 			pg_trigger_logical_schema = get_logical_schema_name(pg_trigger_physical_schema, true);
-			if(strcasecmp(pg_trigger_physical_schema,cur_physical_schema) == 0)
+			if(pg_strcasecmp(pg_trigger_physical_schema,cur_physical_schema) == 0)
 			{
 				trigger_rel_oid = reloid;
 				RelationClose(relation);
@@ -2184,8 +2184,8 @@ pltsql_store_func_default_positions(ObjectAddress address, List *parameters, con
 		 */
 		temp = strpbrk(func_name_start, ". ");
 		while (temp && temp[0] != ' ' &&
-			strncasecmp(funcname, func_name_start, strlen(funcname)) != 0 &&
-			strncasecmp(funcname, func_name_start + 1, strlen(funcname)) != 0) /* match after skipping delimiter */
+			pg_strncasecmp(funcname, func_name_start, strlen(funcname)) != 0 &&
+			pg_strncasecmp(funcname, func_name_start + 1, strlen(funcname)) != 0) /* match after skipping delimiter */
 		{
 			temp += 1;
 			func_name_start = temp;

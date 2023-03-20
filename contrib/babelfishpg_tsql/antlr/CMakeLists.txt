@@ -5,14 +5,14 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-dir)
 
 # compiler must be 11 or 14
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /bigobj")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 
 message(STATUS "CMAKE_C_FLAGS=${CMAKE_C_FLAGS}")
 
 # add antrl4cpp artifacts to project environment
 #include_directories($ENV{ANTLR4_RUNTIME_INCLUDE_DIR})
-SET (MYDIR /usr/local/include/antlr4-runtime/)
+SET (MYDIR C:/projects/postgres/antlr4/runtime/Cpp/runtime/src/ )
 include_directories(${MYDIR})
 
 # set variable pointing to the antlr tool that supports C++
@@ -31,3 +31,4 @@ include_directories(${ANTLR_SampleGrammarLexer_OUTPUT_DIR})
 include_directories(${ANTLR_SampleGrammarParser_OUTPUT_DIR})
 
 add_library(antlr_tsql STATIC ${ANTLR_SampleGrammarLexer_CXX_OUTPUTS} ${ANTLR_SampleGrammarParser_CXX_OUTPUTS})
+target_compile_definitions ( antlr_tsql PRIVATE ANTLR4CPP_STATIC )

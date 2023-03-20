@@ -40,7 +40,8 @@ typedef int (*TdsSendTypeFunction)(FmgrInfo *finfo, Datum value,
 									  void *vMetaData);
 
 /* COLMETADATA entry for types like INTEGER and SMALLINT */
-typedef struct __attribute__((packed)) ColMetaEntry1
+__pragma(pack(push, 1))
+typedef struct ColMetaEntry1
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
@@ -48,7 +49,7 @@ typedef struct __attribute__((packed)) ColMetaEntry1
 } ColMetaEntry1;
 
 /* COLMETADATA entry for types like NVARCHAR */
-typedef struct __attribute__((packed)) ColMetaEntry2
+typedef struct ColMetaEntry2
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
@@ -63,7 +64,7 @@ typedef struct __attribute__((packed)) ColMetaEntry2
 
 
 /* COLMETADATA entry for types like TEXT */
-typedef struct __attribute__((packed)) ColMetaEntry3
+typedef struct ColMetaEntry3
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
@@ -77,14 +78,14 @@ typedef struct __attribute__((packed)) ColMetaEntry3
 } ColMetaEntry3;
 
 /* COLMETADATA entry for type like DATE */
-typedef struct __attribute__((packed)) ColMetaEntry4
+typedef struct ColMetaEntry4
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
 } ColMetaEntry4;
 
 /* COLMETADATA entry for type NUMERIC */
-typedef struct __attribute__((packed)) ColMetaEntry5
+typedef struct ColMetaEntry5
 {
 	uint16_t                flags;
 	uint8_t                 tdsTypeId;
@@ -94,7 +95,7 @@ typedef struct __attribute__((packed)) ColMetaEntry5
 } ColMetaEntry5;
 
 /* COLMETADATA entry for type like TIME, DATETIME2, DATETIMEOFFSET */
-typedef struct __attribute__((packed)) ColMetaEntry6
+typedef struct ColMetaEntry6
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
@@ -102,7 +103,7 @@ typedef struct __attribute__((packed)) ColMetaEntry6
 } ColMetaEntry6;
 
 /* COLMETADATA entry for types like BINARY VARBINARY */
-typedef struct __attribute__((packed)) ColMetaEntry7
+typedef struct ColMetaEntry7
 {
 	uint16_t		flags;
 	uint8_t			tdsTypeId;
@@ -110,12 +111,13 @@ typedef struct __attribute__((packed)) ColMetaEntry7
 } ColMetaEntry7;
 
 /* COLMETADATA entry for type like IMAGE */
-typedef struct __attribute__((packed)) ColMetaEntry8
+typedef struct ColMetaEntry8
 {
         uint16_t                flags;
         uint8_t                 tdsTypeId;
         uint32_t                maxSize;
 } ColMetaEntry8;
+__pragma(pack(pop))
 
 typedef union ColMetaEntry
 {

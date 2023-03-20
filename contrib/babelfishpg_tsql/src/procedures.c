@@ -399,7 +399,7 @@ sp_describe_first_result_set_internal(PG_FUNCTION_ARGS)
 		}
 
 		/* If TSQL Query is NULL string or a non-select query then send no rows. */
-		if (parsedbatch && strncasecmp(parsedbatch, "select", 6) == 0)
+		if (parsedbatch && pg_strncasecmp(parsedbatch, "select", 6) == 0)
 		{
 			sp_describe_first_result_set_inprogress = true;
 			query = psprintf("CREATE VIEW %s as %s", sp_describe_first_result_set_view_name, parsedbatch);

@@ -23,9 +23,9 @@
 #include <openssl/ssl.h>
 #include <openssl/dh.h>
 #include <openssl/conf.h>
-#endif
 #ifndef OPENSSL_NO_ECDH
 #include <openssl/ec.h>
+#endif
 #endif
 
 #include "libpq/libpq.h"
@@ -36,9 +36,10 @@
 #define BIO_get_data(bio) (bio->ptr)
 #define BIO_set_data(bio, data) (bio->ptr = data)
 #endif
-#endif
+
 
 BIO_METHOD *TdsBioSecureSocket(BIO_METHOD *my_bio_methods);
+#endif
 
 extern int	tds_ssl_min_protocol_version;
 extern int	tds_ssl_max_protocol_version;

@@ -1,3 +1,7 @@
+
+#define fstat microsoft_native_fstat
+#define stat microsoft_native_stat
+
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -7,13 +11,15 @@
 
 #pragma GCC diagnostic ignored "-Wattributes"
 
+#define NOMINMAX
+
 #include "antlr4-runtime.h" // antlr4-cpp-runtime
 #include "tree/ParseTreeWalker.h" // antlr4-cpp-runtime
 #include "tree/ParseTreeProperty.h" // antlr4-cpp-runtime
 
-#include "../antlr/antlr4cpp_generated_src/TSqlLexer/TSqlLexer.h"
-#include "../antlr/antlr4cpp_generated_src/TSqlParser/TSqlParser.h"
-#include "../antlr/antlr4cpp_generated_src/TSqlParser/TSqlParserBaseListener.h"
+#include "TSqlLexer/TSqlLexer.h"
+#include "TSqlParser/TSqlParser.h"
+#include "TSqlParser/TSqlParserBaseListener.h"
 #include "tsqlIface.hpp"
 
 #define LOOP_JOIN_HINT 0
@@ -40,6 +46,8 @@ extern "C" {
 #include "parser/scansup.h"
 
 #include "guc.h"
+
+#include "win_utils.h"
 
 #endif
 
@@ -464,7 +472,7 @@ template
 FormattedMessage
 format_errmsg(const char *fmt, const char *arg1, const char *arg2);
 
-inline std::u32string utf8_to_utf32(const char* s)
+inline UTF32String utf8_to_utf32(const char* s)
 {
 	return antlrcpp::utf8_to_utf32(s, s + strlen(s));
 }
@@ -537,20 +545,20 @@ void PLtsql_expr_query_mutator::add(int antlr_pos, std::string orig_text, std::s
 void PLtsql_expr_query_mutator::run()
 {
 	/*
-	 * ANTLR parser converts all input to std::u32string (utf-32 string) internally and runs the lexer/parser on that.
+	 * ANTLR parser converts all input to UTF32String (utf-32 string) internally and runs the lexer/parser on that.
 	 * This indicates that Token position is based on character position not a byte offset.
-	 * To rewrite query based on token position, we have to convert a query string to std::u32string first
+	 * To rewrite query based on token position, we have to convert a query string to UTF32String first
 	 * so that offset should indicate a correct position to be replaced.
 	 */
-	std::u32string query = utf8_to_utf32(expr->query);
-	std::u32string rewritten_query;
+	UTF32String query = utf8_to_utf32(expr->query);
+	UTF32String rewritten_query;
 
 	size_t cursor = 0; // cursor to expr->query where next copy should start
 	for (const auto &entry : m)
 	{
 		size_t offset = entry.first;
-		const std::u32string& orig_text = utf8_to_utf32(entry.second.first.c_str());
-		const std::u32string& repl_text = utf8_to_utf32(entry.second.second.c_str());
+		const UTF32String& orig_text = utf8_to_utf32(entry.second.first.c_str());
+		const UTF32String& repl_text = utf8_to_utf32(entry.second.second.c_str());
 		if (orig_text.length() == 0 || orig_text.c_str(), query.substr(offset, orig_text.length()) == orig_text) // local_id maybe already deleted in some cases such as select-assignment. check here if it still exists)
 		{
 			if (offset - cursor < 0)
@@ -947,7 +955,7 @@ public:
 				col_name = "";
 				col_type = "";
 				col_path = "";
-				for (uint i = 0; i < col_tokens.size(); i++)
+				for (size_t i = 0; i < col_tokens.size(); i++)
 				{
 					token = col_tokens[i];
 					if (col_name == "")
@@ -2874,7 +2882,7 @@ handleBatchLevelStatement(TSqlParser::Batch_level_statementContext *ctx, tsqlSel
 	init->label = NULL;
 	init->inits = rootInitializers;
 
-	result->body = list_make1(init);
+	result->body = list_make1_win(init);
 	// create PLtsql_stmt_execsql to wrap all query string
 	PLtsql_stmt_execsql *execsql = (PLtsql_stmt_execsql *) makeSQL(ctx);
 
@@ -2911,7 +2919,7 @@ handleITVFBody(TSqlParser::Func_body_return_select_bodyContext *ctx)
 	result->n_initvars = 0;
 	result->initvarnos = nullptr;
 	result->exceptions = nullptr;
-	result->body = list_make1(makeReturnQueryStmt(ctx->select_statement_standalone(), true/*itvf*/));
+	result->body = list_make1_win(makeReturnQueryStmt(ctx->select_statement_standalone(), true/*itvf*/));
 
 	pltsql_parse_result = result;
 
@@ -3610,7 +3618,7 @@ makeBatch(TSqlParser::Tsql_fileContext *ctx, tsqlBuilder &builder)
 	init->label = NULL;
 	init->inits = rootInitializers;
 
-	result->body = list_make1(init);
+	result->body = list_make1_win(init);
 
 	List *code = builder.getCode(ctx);
 	ListCell *s;
@@ -3910,7 +3918,7 @@ makePrintStmt(TSqlParser::Print_statementContext *ctx)
 	PLtsql_stmt_print *result = (PLtsql_stmt_print *) palloc0(sizeof(*result));
 
 	result->cmd_type = PLTSQL_STMT_PRINT;
-	result->exprs = list_make1(makeTsqlExpr(ctx->expression(), true));
+	result->exprs = list_make1_win(makeTsqlExpr(ctx->expression(), true));
 
 	return result;
 }
@@ -4735,6 +4743,13 @@ makeOpenCursorStatement(TSqlParser::Cursor_statementContext *ctx)
 
 	return (PLtsql_stmt *) result;
 }
+
+#ifdef ABSOLUTE
+#undef ABSOLUTE
+#endif // ABSOLUTE
+#ifdef RELATIVE
+#undef RELATIVE
+#endif // RELATIVE
 
 PLtsql_stmt *
 makeFetchCurosrStatement(TSqlParser::Fetch_cursorContext *ctx)
@@ -6155,6 +6170,10 @@ makeSpParams(TSqlParser::Execute_statement_argContext *ctx, std::vector<tsql_exe
 		}
 	}
 }
+
+#ifdef OUT
+#undef OUT
+#endif // OUT
 
 static tsql_exec_param *
 makeSpParam(TSqlParser::Execute_statement_arg_namedContext *ctx)

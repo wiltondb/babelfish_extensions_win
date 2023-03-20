@@ -33,9 +33,9 @@
 #include <openssl/ssl.h>
 #include <openssl/dh.h>
 #include <openssl/conf.h>
-#endif
 #ifndef OPENSSL_NO_ECDH
 #include <openssl/ec.h>
+#endif
 #endif
 
 #include "common/openssl.h"

@@ -48,7 +48,8 @@ typedef struct FormData_sysdatabases
 	int32       status2;
 	NameData 	owner;
 	NameData    default_collation;
-	text		name;
+	// todo: fixme
+	text*		name;
 	TimestampTz crdate;
 	text		properties;
 } FormData_sysdatabases;
@@ -66,8 +67,10 @@ typedef struct FormData_authid_login_ext
 	int32     	is_fixed_role;
 	TimestampTz	create_date;
 	TimestampTz	modify_date;
-	VarChar		default_database_name;
-	VarChar		default_language_name;
+	// todo: fixme
+	VarChar*		default_database_name;
+	// todo: fixme
+	VarChar*		default_language_name;
 	Jsonb		properties;
 } FormData_authid_login_ext;
 
@@ -146,7 +149,8 @@ typedef struct FormData_authid_user_ext
 {
 	NameData  	rolname;
 	NameData	login_name;
-	BpChar		type;
+	// todo: fixme
+	BpChar*		type;
 	int32		owning_principal_id;
 	int32		is_fixed_role;
 	int32		authentication_type;
@@ -154,11 +158,12 @@ typedef struct FormData_authid_user_ext
 	int32		allow_encrypted_value_modifications;
 	TimestampTz	create_date;
 	TimestampTz	modify_date;
-	VarChar		orig_username;
-	VarChar		database_name;
-	VarChar		default_schema_name;
-	VarChar		default_language_name;
-	VarChar		authentication_type_desc;
+	// todo: fixme
+	VarChar*		orig_username;
+	VarChar* database_name;
+	VarChar* default_schema_name;
+	VarChar* default_language_name;
+	VarChar* authentication_type_desc;
 	int32		user_can_connect;
 } FormData_authid_user_ext;
 
@@ -189,9 +194,10 @@ extern void clean_up_bbf_view_def(int16 dbid);
 typedef struct FormData_bbf_view_def
 {
 	int16		dbid;
-	VarChar		schema;
-	VarChar		object_name;
-	text		definition;
+	// todo: fixme
+	VarChar*		schema;
+	VarChar*		object_name;
+	text*		definition;
 	uint64		flag_validity;
 	uint64		flag_values;
 	Timestamp	create_date;
@@ -229,9 +235,10 @@ typedef struct FormData_bbf_function_ext
 {
 	NameData	schema;
 	NameData	funcname;
-	VarChar		orig_name;
-	text		function_signature;
-	text		default_positions;
+	// todo: fixme
+	VarChar*		orig_name;
+	text* function_signature;
+	text* default_positions;
 	uint64		flag_validity;
 	uint64		flag_values;
 	Timestamp	create_date;

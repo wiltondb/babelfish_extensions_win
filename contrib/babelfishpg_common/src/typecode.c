@@ -222,7 +222,8 @@ typecode_list(PG_FUNCTION_ARGS)
     PG_RETURN_NULL();
 }
 
-PG_FUNCTION_INFO_V1(translate_pg_type_to_tsql);
+
+PG_FUNCTION_INFO_V1_DLLEXPORT(translate_pg_type_to_tsql);
 
 Datum
 translate_pg_type_to_tsql(PG_FUNCTION_ARGS)

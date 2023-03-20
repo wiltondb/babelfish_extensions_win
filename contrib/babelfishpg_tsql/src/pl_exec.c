@@ -4659,7 +4659,8 @@ exec_stmt_execsql(PLtsql_execstate *estate,
          * statements that invoke sp_describe_first_result_set. For now, only
          * transform SELECT statements.
          */
-        if (pltsql_fmtonly && is_select && !strcasestr(estate->func->fn_signature, "sp_describe_first_result_set") && fmtonly_enabled && strcasestr(stmt->sqlstmt->query, "SELECT *"))
+				 // todo: fixme
+        if (pltsql_fmtonly && is_select && !strstr(estate->func->fn_signature, "sp_describe_first_result_set") && fmtonly_enabled && strstr(stmt->sqlstmt->query, "SELECT *"))
         {
             initStringInfo(&query);
             appendStringInfo(&query, "SELECT TOP 0");

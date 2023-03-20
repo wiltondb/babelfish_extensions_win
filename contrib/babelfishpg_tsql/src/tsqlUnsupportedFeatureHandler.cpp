@@ -1,15 +1,19 @@
+
+#define fstat microsoft_native_fstat
+#define stat microsoft_native_stat
+
 #include <iostream>
 #include <strstream>
 #include <unordered_map>
 
 #pragma GCC diagnostic ignored "-Wattributes"
 
-#include "antlr4-runtime.h" // antlr4-cpp-runtime
+ // antlr4-cpp-runtime
 #include "tree/ParseTreeWalker.h" // antlr4-cpp-runtime
 #include "tree/ParseTreeProperty.h" // antlr4-cpp-runtime
 
-#include "../antlr/antlr4cpp_generated_src/TSqlLexer/TSqlLexer.h"
-#include "../antlr/antlr4cpp_generated_src/TSqlParser/TSqlParser.h"
+#include "TSqlLexer/TSqlLexer.h"
+#include "TSqlParser/TSqlParser.h"
 #include "tsqlIface.hpp"
 
 extern "C" {
@@ -18,7 +22,7 @@ extern "C" {
 #include "guc.h"
 }
 
-extern bool pltsql_allow_antlr_to_unsupported_grammar_for_testing;
+extern "C" bool pltsql_allow_antlr_to_unsupported_grammar_for_testing;
 
 /* escape hatches */
 typedef struct escape_hatch_t {
@@ -27,7 +31,7 @@ typedef struct escape_hatch_t {
 } escape_hatch_t;
 
 #define declare_escape_hatch(name) \
-	extern int name; \
+	extern "C" int name; \
 	struct escape_hatch_t st_##name = {	#name, &name };
 
 declare_escape_hatch(escape_hatch_storage_options);
@@ -1587,6 +1591,10 @@ void TsqlUnsupportedFeatureHandlerImpl::checkUnsupportedSystemProcedure(TSqlPars
 		if (pg_strcasecmp(unsupported_sp_procedures[i], val.c_str()) == 0)
 			handle(INSTR_UNSUPPORTED_TSQL_NOT_IMPLEMENTED_SYSTEM_PROCEDURE, val.c_str(), getLineAndPos(ctx));
 }
+
+#ifdef DELETE
+#undef DELETE
+#endif // DELETE
 
 void TsqlUnsupportedFeatureHandlerImpl::checkSupportedGrantStmt(TSqlParser::Grant_statementContext *grant)
 {
