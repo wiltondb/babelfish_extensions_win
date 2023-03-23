@@ -867,7 +867,7 @@ get_pltsql_function_signature_internal(const char *funcname,
 	return argbuf.data;			/* return palloc'd string buffer */
 }
 
-PG_FUNCTION_INFO_V1(get_pltsql_function_signature);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_pltsql_function_signature);
 
 Datum
 get_pltsql_function_signature(PG_FUNCTION_ARGS)

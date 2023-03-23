@@ -16,7 +16,7 @@
 static void string_to_uuid(const char *source, pg_uuid_t *uuid);
 static void reverse_memcpy(unsigned char *dst, unsigned char *src, size_t n);
 
-PG_FUNCTION_INFO_V1(uniqueidentifier_in);
+PG_FUNCTION_INFO_V1_DLLEXPORT(uniqueidentifier_in);
 
 Datum
 uniqueidentifier_in(PG_FUNCTION_ARGS)
@@ -29,7 +29,7 @@ uniqueidentifier_in(PG_FUNCTION_ARGS)
     PG_RETURN_UUID_P(uuid);
 }
 
-PG_FUNCTION_INFO_V1(uniqueidentifier_out);
+PG_FUNCTION_INFO_V1_DLLEXPORT(uniqueidentifier_out);
 
 Datum
 uniqueidentifier_out(PG_FUNCTION_ARGS)
@@ -116,7 +116,7 @@ syntax_error:
 					"uuid", source)));
 }
 
-PG_FUNCTION_INFO_V1(varchar2uniqueidentifier);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2uniqueidentifier);
 
 Datum
 varchar2uniqueidentifier(PG_FUNCTION_ARGS)
@@ -129,7 +129,7 @@ varchar2uniqueidentifier(PG_FUNCTION_ARGS)
 
 }
 
-PG_FUNCTION_INFO_V1(varbinary2uniqueidentifier);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary2uniqueidentifier);
 
 Datum
 varbinary2uniqueidentifier(PG_FUNCTION_ARGS)
@@ -153,7 +153,7 @@ varbinary2uniqueidentifier(PG_FUNCTION_ARGS)
 }
 
 
-PG_FUNCTION_INFO_V1(uniqueidentifier2varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(uniqueidentifier2varbinary);
 
 Datum
 uniqueidentifier2varbinary(PG_FUNCTION_ARGS)
@@ -189,7 +189,7 @@ uniqueidentifier2varbinary(PG_FUNCTION_ARGS)
 	PG_RETURN_BYTEA_P(result);
 }
 
-PG_FUNCTION_INFO_V1(uniqueidentifier2binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(uniqueidentifier2binary);
 
 Datum
 uniqueidentifier2binary(PG_FUNCTION_ARGS)

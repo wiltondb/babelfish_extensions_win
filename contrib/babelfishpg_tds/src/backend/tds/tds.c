@@ -160,8 +160,8 @@ static bool isLocalStatusTableValid = false;
 
 TdsInstrPlugin **tds_instr_plugin_ptr = NULL;
 
-extern void _PG_init(void);
-extern void _PG_fini(void);
+extern PGDLLEXPORT void _PG_init(void);
+extern PGDLLEXPORT void _PG_fini(void);
 
 /* Hook for plugins */
 static struct PLtsql_protocol_plugin pltsql_plugin_handler;

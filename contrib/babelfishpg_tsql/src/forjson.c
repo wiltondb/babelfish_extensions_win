@@ -26,7 +26,7 @@ static void tsql_unsupported_datatype_check(void);
 static void for_json_datetime_format(StringInfo format_output, char *outputstr);
 static void for_json_datetimeoffset_format(StringInfo format_output, char *outputstr);
 
-PG_FUNCTION_INFO_V1(tsql_query_to_json_text);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_query_to_json_text);
 
 
 Datum 

@@ -24,9 +24,9 @@ Datum tsql_jsonb_path_query_first(Datum jsonb_datum, Datum jsonpath_datum);
 JsonParseErrorType tsql_parse_json(text *json_text, JsonLexContext *lex, JsonSemAction *sem);
 static Datum tsql_openjson_with_internal(PG_FUNCTION_ARGS);
 
-PG_FUNCTION_INFO_V1(tsql_isjson);
-PG_FUNCTION_INFO_V1(tsql_json_value);
-PG_FUNCTION_INFO_V1(tsql_json_query);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_isjson);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_json_value);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_json_query);
 
 /*
  * tsql_isjson()
@@ -262,7 +262,7 @@ tsql_jsonb_path_query_first(Datum jsonb_datum, Datum jsonpath_datum)
 	return result;
 }
 
-PG_FUNCTION_INFO_V1(tsql_openjson_with);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_openjson_with);
 
 Datum
 tsql_openjson_with(PG_FUNCTION_ARGS)

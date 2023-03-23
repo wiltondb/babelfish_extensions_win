@@ -404,10 +404,10 @@ static const NumericVar const_nan =
 static const int round_powers[4] = {0, 1000, 100, 10};
 #endif
 
-PG_FUNCTION_INFO_V1(tsql_numeric_round);
-PG_FUNCTION_INFO_V1(tsql_numeric_trunc);
-PG_FUNCTION_INFO_V1(bigint_sum);
-PG_FUNCTION_INFO_V1(int4int2_sum);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_numeric_round);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_numeric_trunc);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bigint_sum);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4int2_sum);
 
 static void alloc_var(NumericVar *var, int ndigits);
 static void free_var(NumericVar *var);

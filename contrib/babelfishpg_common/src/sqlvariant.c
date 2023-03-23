@@ -47,10 +47,10 @@
 #include "sqlvariant.h"
 
 /*  Function Registeration  */
-PG_FUNCTION_INFO_V1(sqlvariantin);
-PG_FUNCTION_INFO_V1(sqlvariantout);
-PG_FUNCTION_INFO_V1(sqlvariantrecv);
-PG_FUNCTION_INFO_V1(sqlvariantsend);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantin);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantout);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantrecv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantsend);
 
 extern PGDLLEXPORT bytea *convertVarcharToSQLVariantByteA(VarChar *vch, Oid coll);
 extern PGDLLEXPORT bytea *convertIntToSQLVariantByteA(int ret);
@@ -500,28 +500,28 @@ do_compare(char *oprname, bytea *arg1, bytea *arg2, Oid fncollation)
  */
 
 PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2sqlvariant);
-PG_FUNCTION_INFO_V1(datetime22sqlvariant);
-PG_FUNCTION_INFO_V1(smalldatetime2sqlvariant);
-PG_FUNCTION_INFO_V1(datetimeoffset2sqlvariant);
-PG_FUNCTION_INFO_V1(date2sqlvariant);
-PG_FUNCTION_INFO_V1(time2sqlvariant);
-PG_FUNCTION_INFO_V1(float2sqlvariant);
-PG_FUNCTION_INFO_V1(real2sqlvariant);
-PG_FUNCTION_INFO_V1(numeric2sqlvariant);
-PG_FUNCTION_INFO_V1(money2sqlvariant);
-PG_FUNCTION_INFO_V1(smallmoney2sqlvariant);
-PG_FUNCTION_INFO_V1(bigint2sqlvariant);
-PG_FUNCTION_INFO_V1(int2sqlvariant);
-PG_FUNCTION_INFO_V1(smallint2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime22sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(date2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(time2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(real2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(numeric2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(money2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smallmoney2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bigint2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smallint2sqlvariant);
 PG_FUNCTION_INFO_V1_DLLEXPORT(tinyint2sqlvariant);
-PG_FUNCTION_INFO_V1(bit2sqlvariant);
-PG_FUNCTION_INFO_V1(varchar2sqlvariant);
-PG_FUNCTION_INFO_V1(nvarchar2sqlvariant);
-PG_FUNCTION_INFO_V1(char2sqlvariant);
-PG_FUNCTION_INFO_V1(nchar2sqlvariant);
-PG_FUNCTION_INFO_V1(bbfvarbinary2sqlvariant);
-PG_FUNCTION_INFO_V1(bbfbinary2sqlvariant);
-PG_FUNCTION_INFO_V1(uniqueidentifier2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bit2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(nvarchar2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(char2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(nchar2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bbfvarbinary2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bbfbinary2sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(uniqueidentifier2sqlvariant);
 
 /* Date and time */
 Datum
@@ -889,24 +889,24 @@ uniqueidentifier2sqlvariant(PG_FUNCTION_ARGS)
  * CAST functions from SQL_VARIANT
  */
 
-PG_FUNCTION_INFO_V1(sqlvariant2timestamp);
-PG_FUNCTION_INFO_V1(sqlvariant2datetime2);
-PG_FUNCTION_INFO_V1(sqlvariant2datetimeoffset);
-PG_FUNCTION_INFO_V1(sqlvariant2date);
-PG_FUNCTION_INFO_V1(sqlvariant2time);
-PG_FUNCTION_INFO_V1(sqlvariant2float);
-PG_FUNCTION_INFO_V1(sqlvariant2real);
-PG_FUNCTION_INFO_V1(sqlvariant2numeric);
-PG_FUNCTION_INFO_V1(sqlvariant2fixeddecimal);
-PG_FUNCTION_INFO_V1(sqlvariant2bigint);
-PG_FUNCTION_INFO_V1(sqlvariant2int);
-PG_FUNCTION_INFO_V1(sqlvariant2smallint);
-PG_FUNCTION_INFO_V1(sqlvariant2bit);
-PG_FUNCTION_INFO_V1(sqlvariant2varchar);
-PG_FUNCTION_INFO_V1(sqlvariant2char);
-PG_FUNCTION_INFO_V1(sqlvariant2bbfvarbinary);
-PG_FUNCTION_INFO_V1(sqlvariant2bbfbinary);
-PG_FUNCTION_INFO_V1(sqlvariant2uniqueidentifier);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2timestamp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2date);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2time);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2float);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2real);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2numeric);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2fixeddecimal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2bigint);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2int);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2smallint);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2bit);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2varchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2char);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2bbfvarbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2bbfbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant2uniqueidentifier);
 
 
 /* Postgres will do self casts to apply typmod
@@ -1134,7 +1134,7 @@ sqlvariant2uniqueidentifier(PG_FUNCTION_ARGS)
  * SQL_VARIANT_PROPERTY
  */
 
-PG_FUNCTION_INFO_V1(sql_variant_property);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sql_variant_property);
 typedef enum sv_property
 {
     SV_PROPERTY_BASETYPE,
@@ -1535,12 +1535,12 @@ sql_variant_property(PG_FUNCTION_ARGS)
  *  Comparision functions
  */
 
-PG_FUNCTION_INFO_V1(sqlvarianteq);
-PG_FUNCTION_INFO_V1(sqlvariantne);
-PG_FUNCTION_INFO_V1(sqlvariantlt);
-PG_FUNCTION_INFO_V1(sqlvariantle);
-PG_FUNCTION_INFO_V1(sqlvariantgt);
-PG_FUNCTION_INFO_V1(sqlvariantge);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvarianteq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantne);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantlt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantle);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantgt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariantge);
 
 Datum
 sqlvariantlt(PG_FUNCTION_ARGS)
@@ -1690,8 +1690,8 @@ sqlvariantne(PG_FUNCTION_ARGS)
  * Index Supporting Functions
  */
 
-PG_FUNCTION_INFO_V1(sqlvariant_cmp);
-PG_FUNCTION_INFO_V1(sqlvariant_hash);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant_cmp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sqlvariant_hash);
 
 Datum
 sqlvariant_cmp(PG_FUNCTION_ARGS)
@@ -1755,7 +1755,7 @@ sqlvariant_hash(PG_FUNCTION_ARGS)
  * DATALENGTH function for SQL_VARIANT
  */
 
-PG_FUNCTION_INFO_V1(datalength_sqlvariant);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datalength_sqlvariant);
 
 Datum
 datalength_sqlvariant(PG_FUNCTION_ARGS)

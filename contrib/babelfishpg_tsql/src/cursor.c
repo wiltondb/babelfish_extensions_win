@@ -108,16 +108,16 @@ static void validate_and_get_sp_cursorfetch_params(int *fetchtype_in, int *rownu
 static void validate_sp_cursoroption_params(int code, int value);
 
 /* cursor functions and procedures */
-PG_FUNCTION_INFO_V1(cursor_rows);
-PG_FUNCTION_INFO_V1(cursor_status);
-PG_FUNCTION_INFO_V1(cursor_list);
+PG_FUNCTION_INFO_V1_DLLEXPORT(cursor_rows);
+PG_FUNCTION_INFO_V1_DLLEXPORT(cursor_status);
+PG_FUNCTION_INFO_V1_DLLEXPORT(cursor_list);
 
-PG_FUNCTION_INFO_V1(init_tsql_cursor_hash_tab);
+PG_FUNCTION_INFO_V1_DLLEXPORT(init_tsql_cursor_hash_tab);
 
 /* helper function for debugging/testing */
-PG_FUNCTION_INFO_V1(pltsql_cursor_show_textptr_only_column_indexes);
-PG_FUNCTION_INFO_V1(pltsql_get_last_cursor_handle);
-PG_FUNCTION_INFO_V1(pltsql_get_last_stmt_handle);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_cursor_show_textptr_only_column_indexes);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_get_last_cursor_handle);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_get_last_stmt_handle);
 
 /* Start of implementation */
 uint32 get_next_cursor_handle()

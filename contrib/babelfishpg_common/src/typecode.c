@@ -69,7 +69,7 @@ static bool inited_ht_oid2typecode = false;
  *
  */
 
-PG_FUNCTION_INFO_V1(init_tcode_trans_tab);
+PG_FUNCTION_INFO_V1_DLLEXPORT(init_tcode_trans_tab);
 
 Datum
 init_tcode_trans_tab(PG_FUNCTION_ARGS)
@@ -141,7 +141,7 @@ get_tsql_type_info(uint8_t type_code)
     return type_infos[type_code];
 }
 
-PG_FUNCTION_INFO_V1(typecode_list);
+PG_FUNCTION_INFO_V1_DLLEXPORT(typecode_list);
 
 Datum
 typecode_list(PG_FUNCTION_ARGS)

@@ -49,7 +49,7 @@ static SeqTableIdentityData *last_used_seq_identity = NULL;
 
 static Oid get_table_identity(Oid tableOid);
 
-PG_FUNCTION_INFO_V1(get_identity_param);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_identity_param);
 
 /*
  * Given a table name with an identity column and a sequence option name,
@@ -117,7 +117,7 @@ get_identity_param(PG_FUNCTION_ARGS)
 	PG_RETURN_NULL();
 }
 
-PG_FUNCTION_INFO_V1(get_identity_current);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_identity_current);
 
 /*
  * Given a table name with an identity column, fetch the last identity sequence

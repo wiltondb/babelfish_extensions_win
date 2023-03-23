@@ -16,7 +16,7 @@ _PG_init(void)
 }
 #endif
 
-PG_FUNCTION_INFO_V1(antlr_parser);
+PG_FUNCTION_INFO_V1_DLLEXPORT(antlr_parser);
 
 Datum
 antlr_parser(PG_FUNCTION_ARGS)

@@ -58,3 +58,6 @@ target_link_libraries ( ${PROJECT_NAME} PRIVATE
         ${PG_DIST}/lib/postgres.lib
         ${LIBXML_DIST}/lib/libxml2.lib
         Ws2_32 )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION ${PG_DIST}/lib )

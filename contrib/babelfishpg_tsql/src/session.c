@@ -171,7 +171,7 @@ restore_session_properties()
 	}
 }
 
-PG_FUNCTION_INFO_V1(babelfish_db_id);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_db_id);
 Datum babelfish_db_id(PG_FUNCTION_ARGS)
 {
 	char *str;
@@ -197,7 +197,7 @@ Datum babelfish_db_id(PG_FUNCTION_ARGS)
 	PG_RETURN_INT16(dbid);
 }
 
-PG_FUNCTION_INFO_V1(babelfish_db_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_db_name);
 Datum babelfish_db_name(PG_FUNCTION_ARGS)
 {
 	int16 dbid;

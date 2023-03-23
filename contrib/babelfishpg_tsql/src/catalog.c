@@ -118,7 +118,7 @@ static struct cachedesc my_cacheinfo[] = {
      }
 };
 
-PG_FUNCTION_INFO_V1(init_catalog);
+PG_FUNCTION_INFO_V1_DLLEXPORT(init_catalog);
 Datum init_catalog(PG_FUNCTION_ARGS)
 {
 	/* sys schema */
@@ -270,7 +270,7 @@ const char *get_one_user_db_name(void)
 }
 
 
-PG_FUNCTION_INFO_V1(babelfish_helpdb);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_helpdb);
 
 Datum
 babelfish_helpdb(PG_FUNCTION_ARGS)
@@ -587,7 +587,7 @@ is_login_name(char *rolname)
 	return is_login;
 }
 
-PG_FUNCTION_INFO_V1(bbf_get_login_default_db);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bbf_get_login_default_db);
 Datum bbf_get_login_default_db(PG_FUNCTION_ARGS)
 {
 	char *login_name = text_to_cstring(PG_GETARG_TEXT_PP(0));
@@ -1441,7 +1441,7 @@ Rule must_match_rules_function[] =
  * 			Core function
  *****************************************/
 
-PG_FUNCTION_INFO_V1(babelfish_inconsistent_metadata);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_inconsistent_metadata);
 
 /*
  * Execute the metadata inconsistency check.
@@ -2116,7 +2116,7 @@ guest_has_dbaccess(char *db_name)
 	return has_access;
 }
 
-PG_FUNCTION_INFO_V1(update_user_catalog_for_guest);
+PG_FUNCTION_INFO_V1_DLLEXPORT(update_user_catalog_for_guest);
 Datum update_user_catalog_for_guest(PG_FUNCTION_ARGS)
 {
 	Relation        db_rel;

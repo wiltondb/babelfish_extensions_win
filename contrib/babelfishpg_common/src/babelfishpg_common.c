@@ -37,8 +37,8 @@ TranslateCollation_hook_type prev_TranslateCollation_hook = NULL;
 PreCreateCollation_hook_type prev_PreCreateCollation_hook = NULL;
 
 /* Module callbacks */
-void	_PG_init(void);
-void	_PG_fini(void);
+void PGDLLEXPORT _PG_init(void);
+void PGDLLEXPORT _PG_fini(void);
 
 static bool check_server_collation_name(char **newval, void **extra, GucSource source)
 {

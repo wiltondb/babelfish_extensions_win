@@ -25,15 +25,15 @@
 #include "src/include/faultinjection.h"
 #include "src/include/tds_int.h"
 
-extern Datum inject_fault(PG_FUNCTION_ARGS);
-extern Datum inject_fault_status(PG_FUNCTION_ARGS);
-extern Datum trigger_test_fault(PG_FUNCTION_ARGS);
-extern Datum inject_fault_status_all(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum inject_fault(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum inject_fault_status(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum trigger_test_fault(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum inject_fault_status_all(PG_FUNCTION_ARGS);
 
-PG_FUNCTION_INFO_V1(inject_fault);
-PG_FUNCTION_INFO_V1(inject_fault_status);
-PG_FUNCTION_INFO_V1(trigger_test_fault);
-PG_FUNCTION_INFO_V1(inject_fault_status_all);
+PG_FUNCTION_INFO_V1_DLLEXPORT(inject_fault);
+PG_FUNCTION_INFO_V1_DLLEXPORT(inject_fault_status);
+PG_FUNCTION_INFO_V1_DLLEXPORT(trigger_test_fault);
+PG_FUNCTION_INFO_V1_DLLEXPORT(inject_fault_status_all);
 
 bool trigger_fault_injection = true;
 static HTAB	*faultInjectorHash = NULL;

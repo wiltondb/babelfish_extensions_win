@@ -907,7 +907,7 @@ rewrite_role_list(List *rolespecs)
  * 						Helper Functions
  *************************************************************/
 
-PG_FUNCTION_INFO_V1(get_current_physical_schema_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_current_physical_schema_name);
 Datum
 get_current_physical_schema_name(PG_FUNCTION_ARGS)
 {

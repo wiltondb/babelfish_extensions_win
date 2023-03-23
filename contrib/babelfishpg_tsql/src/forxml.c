@@ -25,8 +25,8 @@ static StringInfo tsql_query_to_xml_internal(const char *query, int mode,
 								const char *element_name, bool binary_base64,
 								const char *root_name);
 
-PG_FUNCTION_INFO_V1(tsql_query_to_xml);
-PG_FUNCTION_INFO_V1(tsql_query_to_xml_text);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_query_to_xml);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_query_to_xml_text);
 
 static xmltype *
 stringinfo_to_xmltype(StringInfo buf)

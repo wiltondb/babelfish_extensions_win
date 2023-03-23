@@ -137,3 +137,14 @@ target_link_libraries ( ${PROJECT_NAME} PRIVATE
         C:/projects/postgres/babelfish_extensions/contrib/babelfishpg_common/build/Debug/babelfishpg_common.lib
         C:/projects/postgres/babelfish_extensions/contrib/babelfishpg_tsql/antlr/build/Debug/antlr_tsql.lib 
         C:/projects/postgres/antlr4/runtime/Cpp/dist/Debug/antlr4-runtime-static.lib )
+
+target_include_directories ( ${PROJECT_NAME} PRIVATE C:/projects/postgres/icu_bin/include )
+
+target_link_libraries ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/lib/postgres.lib )
+target_link_libraries ( ${PROJECT_NAME} PRIVATE
+    C:/projects/postgres/icu_bin/lib64/icuin.lib 
+    C:/projects/postgres/icu_bin/lib64/icuuc.lib 
+    )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION ${PG_DIST}/lib )

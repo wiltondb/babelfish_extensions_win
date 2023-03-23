@@ -17,29 +17,29 @@
 #include "miscadmin.h"
 #include "datetime.h"
 
-PG_FUNCTION_INFO_V1(smalldatetime_in);
-PG_FUNCTION_INFO_V1(smalldatetime_recv);
-PG_FUNCTION_INFO_V1(time_smalldatetime);
-PG_FUNCTION_INFO_V1(date_smalldatetime);
-PG_FUNCTION_INFO_V1(timestamp_smalldatetime);
-PG_FUNCTION_INFO_V1(timestamptz_smalldatetime);
-PG_FUNCTION_INFO_V1(smalldatetime_varchar);
-PG_FUNCTION_INFO_V1(varchar_smalldatetime);
-PG_FUNCTION_INFO_V1(smalldatetime_char);
-PG_FUNCTION_INFO_V1(char_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_in);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_recv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(time_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(date_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamp_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamptz_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_varchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_char);
+PG_FUNCTION_INFO_V1_DLLEXPORT(char_smalldatetime);
 
-PG_FUNCTION_INFO_V1(smalldatetime_pl_int4);
-PG_FUNCTION_INFO_V1(int4_mi_smalldatetime);
-PG_FUNCTION_INFO_V1(int4_pl_smalldatetime);
-PG_FUNCTION_INFO_V1(smalldatetime_mi_int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_pl_int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4_mi_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4_pl_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_mi_int4);
 
-PG_FUNCTION_INFO_V1(smalldatetime_pl_float8);
-PG_FUNCTION_INFO_V1(smalldatetime_mi_float8);
-PG_FUNCTION_INFO_V1(float8_pl_smalldatetime);
-PG_FUNCTION_INFO_V1(float8_mi_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_pl_float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_mi_float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8_pl_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8_mi_smalldatetime);
 
-PG_FUNCTION_INFO_V1(smalldatetime_pl_smalldatetime);
-PG_FUNCTION_INFO_V1(smalldatetime_mi_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_pl_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_mi_smalldatetime);
 
 void AdjustTimestampForSmallDatetime(Timestamp *time);
 void CheckSmalldatetimeRange(const Timestamp time);

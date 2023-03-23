@@ -19,18 +19,18 @@
 #include "datetime2.h"
 #include "datetime.h"
 
-PG_FUNCTION_INFO_V1(datetime2_in);
-PG_FUNCTION_INFO_V1(datetime2_out);
-PG_FUNCTION_INFO_V1(datetime2_recv);
-PG_FUNCTION_INFO_V1(date_datetime2);
-PG_FUNCTION_INFO_V1(time_datetime2);
-PG_FUNCTION_INFO_V1(timestamp_datetime2);
-PG_FUNCTION_INFO_V1(timestamptz_datetime2);
-PG_FUNCTION_INFO_V1(datetime2_scale);
-PG_FUNCTION_INFO_V1(datetime2_varchar);
-PG_FUNCTION_INFO_V1(varchar_datetime2);
-PG_FUNCTION_INFO_V1(datetime2_char);
-PG_FUNCTION_INFO_V1(char_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_in);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_out);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_recv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(date_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(time_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamp_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamptz_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_scale);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_varchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_char);
+PG_FUNCTION_INFO_V1_DLLEXPORT(char_datetime2);
 
 static void AdjustDatetime2ForTypmod(Timestamp *time, int32 typmod);
 static Datum datetime2_in_str(char *str, int32 typmod);

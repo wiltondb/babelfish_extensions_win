@@ -66,7 +66,7 @@ inline static float4 ftrunc_(float4 arg1)
 }
 
 /* dtrunci8(X) = dtoi8(dtrunc(X)) */
-PG_FUNCTION_INFO_V1(dtrunci8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(dtrunci8);
 
 Datum
 dtrunci8(PG_FUNCTION_ARGS)
@@ -91,7 +91,7 @@ dtrunci8(PG_FUNCTION_ARGS)
 
 
 /* dtrunci4(X) = dtoi4(dtrunc(X)) */
-PG_FUNCTION_INFO_V1(dtrunci4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(dtrunci4);
 
 Datum
 dtrunci4(PG_FUNCTION_ARGS)
@@ -116,7 +116,7 @@ dtrunci4(PG_FUNCTION_ARGS)
 
 
 /* dtrunci2(X) = dtoi2(dtrunc(X)) */
-PG_FUNCTION_INFO_V1(dtrunci2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(dtrunci2);
 
 Datum
 dtrunci2(PG_FUNCTION_ARGS)
@@ -141,7 +141,7 @@ dtrunci2(PG_FUNCTION_ARGS)
 
 
 /* ftrunci8(X) = ftoi8(ftrunc(X)) */
-PG_FUNCTION_INFO_V1(ftrunci8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(ftrunci8);
 
 Datum
 ftrunci8(PG_FUNCTION_ARGS)
@@ -166,7 +166,7 @@ ftrunci8(PG_FUNCTION_ARGS)
 
 
 /* ftrunci4(X) = ftoi4(ftrunc(X)) */
-PG_FUNCTION_INFO_V1(ftrunci4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(ftrunci4);
 
 Datum
 ftrunci4(PG_FUNCTION_ARGS)
@@ -191,7 +191,7 @@ ftrunci4(PG_FUNCTION_ARGS)
 
 
 /* ftrunci2(X) = ftoi2(ftrunc(X)) */
-PG_FUNCTION_INFO_V1(ftrunci2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(ftrunci2);
 
 Datum
 ftrunci2(PG_FUNCTION_ARGS)
@@ -216,8 +216,8 @@ ftrunci2(PG_FUNCTION_ARGS)
 
 
 
-PG_FUNCTION_INFO_V1(pltsql_text_name);
-PG_FUNCTION_INFO_V1(pltsql_bpchar_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_text_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_bpchar_name);
 
 /* replace text_name() to handle t-sql identifier truncation */
 Datum

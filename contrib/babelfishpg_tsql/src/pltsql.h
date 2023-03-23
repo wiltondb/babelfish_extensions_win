@@ -1825,9 +1825,9 @@ extern void reset_cache(void);
 /*
  * Functions in pl_handler.c
  */
-extern void _PG_init(void);
-extern Datum sp_prepare(PG_FUNCTION_ARGS);
-extern Datum sp_unprepare(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT void _PG_init(void);
+extern PGDLLEXPORT Datum sp_prepare(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum sp_unprepare(PG_FUNCTION_ARGS);
 extern bool pltsql_support_tsql_transactions(void);
 extern bool pltsql_sys_function_pop(void);
 extern uint64 execute_bulk_load_insert(int ncol, int nrow,

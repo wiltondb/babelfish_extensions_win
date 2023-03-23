@@ -23,11 +23,11 @@
 #define SHA1_RESULTLEN	(20)
 #define SHA512_RESULTLEN (64)
 
-PG_FUNCTION_INFO_V1(hashbytes);
-PG_FUNCTION_INFO_V1(quotename);
-PG_FUNCTION_INFO_V1(string_escape);
-PG_FUNCTION_INFO_V1(formatmessage);
-PG_FUNCTION_INFO_V1(tsql_varchar_substr);
+PG_FUNCTION_INFO_V1_DLLEXPORT(hashbytes);
+PG_FUNCTION_INFO_V1_DLLEXPORT(quotename);
+PG_FUNCTION_INFO_V1_DLLEXPORT(string_escape);
+PG_FUNCTION_INFO_V1_DLLEXPORT(formatmessage);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_varchar_substr);
 
 /*
  * Hashbytes implementation

@@ -17,7 +17,7 @@ static int cmpfunc(const void *a, const void *b)
   return ( *(int*)a - *(int*)b );
 }
 
-PG_FUNCTION_INFO_V1(updated);
+PG_FUNCTION_INFO_V1_DLLEXPORT(updated);
 Datum
 updated(PG_FUNCTION_ARGS){
 	char	   *column = text_to_cstring(PG_GETARG_TEXT_PP(0));
@@ -37,7 +37,7 @@ updated(PG_FUNCTION_ARGS){
 	PG_RETURN_BOOL(false);
 }
 
-PG_FUNCTION_INFO_V1(columnsupdated);
+PG_FUNCTION_INFO_V1_DLLEXPORT(columnsupdated);
 Datum
 columnsupdated(PG_FUNCTION_ARGS)
 {
@@ -90,7 +90,7 @@ columnsupdated(PG_FUNCTION_ARGS)
 	PG_RETURN_BYTEA_P(pq_endtypsend(&buf));
 }
 
-PG_FUNCTION_INFO_V1(rowcount);
+PG_FUNCTION_INFO_V1_DLLEXPORT(rowcount);
 
 Datum
 rowcount(PG_FUNCTION_ARGS)
@@ -98,7 +98,7 @@ rowcount(PG_FUNCTION_ARGS)
 	PG_RETURN_INT32(rowcount_var);
 }
 
-PG_FUNCTION_INFO_V1(fetch_status);
+PG_FUNCTION_INFO_V1_DLLEXPORT(fetch_status);
 
 Datum
 fetch_status(PG_FUNCTION_ARGS)
@@ -106,7 +106,7 @@ fetch_status(PG_FUNCTION_ARGS)
 	PG_RETURN_INT32(fetch_status_var);
 }
 
-PG_FUNCTION_INFO_V1(get_last_identity);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_last_identity);
 
 Datum
 get_last_identity(PG_FUNCTION_ARGS)

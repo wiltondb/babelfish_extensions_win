@@ -38,19 +38,19 @@
 #include "multidb.h"
 #include "session.h"
 
-PG_FUNCTION_INFO_V1(sp_unprepare);
-PG_FUNCTION_INFO_V1(sp_prepare);
-PG_FUNCTION_INFO_V1(sp_babelfish_configure);
-PG_FUNCTION_INFO_V1(sp_describe_first_result_set_internal);
-PG_FUNCTION_INFO_V1(sp_describe_undeclared_parameters_internal);
-PG_FUNCTION_INFO_V1(xp_qv_internal);
-PG_FUNCTION_INFO_V1(create_xp_qv_in_master_dbo_internal);
-PG_FUNCTION_INFO_V1(xp_instance_regread_internal);
-PG_FUNCTION_INFO_V1(create_xp_instance_regread_in_master_dbo_internal);
-PG_FUNCTION_INFO_V1(sp_addrole);
-PG_FUNCTION_INFO_V1(sp_droprole);
-PG_FUNCTION_INFO_V1(sp_addrolemember);
-PG_FUNCTION_INFO_V1(sp_droprolemember);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_unprepare);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_prepare);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_babelfish_configure);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_describe_first_result_set_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_describe_undeclared_parameters_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(xp_qv_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(create_xp_qv_in_master_dbo_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(xp_instance_regread_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(create_xp_instance_regread_in_master_dbo_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_addrole);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_droprole);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_addrolemember);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_droprolemember);
 
 extern void delete_cached_batch(int handle);
 extern InlineCodeBlockArgs *create_args(int numargs);

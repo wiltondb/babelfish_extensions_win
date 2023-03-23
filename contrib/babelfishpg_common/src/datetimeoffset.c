@@ -25,44 +25,44 @@ static int  datetimeoffset_cmp_internal(tsql_datetimeoffset* df1, tsql_datetimeo
 static void datetimeoffset_timestamp_internal(const tsql_datetimeoffset *df, Timestamp* time);
 static void EncodeDatetimeoffsetTimezone(char *str, int tz, int style);
 
-PG_FUNCTION_INFO_V1(datetimeoffset_in);
-PG_FUNCTION_INFO_V1(datetimeoffset_out);
-PG_FUNCTION_INFO_V1(datetimeoffset_recv);
-PG_FUNCTION_INFO_V1(datetimeoffset_send);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_in);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_out);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_recv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_send);
 
-PG_FUNCTION_INFO_V1(datetimeoffset_eq);
-PG_FUNCTION_INFO_V1(datetimeoffset_ne);
-PG_FUNCTION_INFO_V1(datetimeoffset_lt);
-PG_FUNCTION_INFO_V1(datetimeoffset_le);
-PG_FUNCTION_INFO_V1(datetimeoffset_gt);
-PG_FUNCTION_INFO_V1(datetimeoffset_ge);
-PG_FUNCTION_INFO_V1(datetimeoffset_cmp);
-PG_FUNCTION_INFO_V1(datetimeoffset_larger);
-PG_FUNCTION_INFO_V1(datetimeoffset_smaller);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_eq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_ne);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_lt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_le);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_gt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_ge);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_cmp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_larger);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_smaller);
 
-PG_FUNCTION_INFO_V1(datetimeoffset_pl_interval);
-PG_FUNCTION_INFO_V1(datetimeoffset_mi_interval);
-PG_FUNCTION_INFO_V1(interval_pl_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_mi);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_pl_interval);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_mi_interval);
+PG_FUNCTION_INFO_V1_DLLEXPORT(interval_pl_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_mi);
 
-PG_FUNCTION_INFO_V1(datetimeoffset_hash);
-PG_FUNCTION_INFO_V1(datetimeoffset_hash_extended);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_hash);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_hash_extended);
 
-PG_FUNCTION_INFO_V1(timestamp_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_timestamp);
-PG_FUNCTION_INFO_V1(date_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_date);
-PG_FUNCTION_INFO_V1(time_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_time);
-PG_FUNCTION_INFO_V1(smalldatetime_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_smalldatetime);
-PG_FUNCTION_INFO_V1(datetime_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_datetime);
-PG_FUNCTION_INFO_V1(datetime2_datetimeoffset);
-PG_FUNCTION_INFO_V1(datetimeoffset_datetime2);
-PG_FUNCTION_INFO_V1(datetimeoffset_scale);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamp_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_timestamp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(date_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_date);
+PG_FUNCTION_INFO_V1_DLLEXPORT(time_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_time);
+PG_FUNCTION_INFO_V1_DLLEXPORT(smalldatetime_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_smalldatetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime2_datetimeoffset);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_datetime2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetimeoffset_scale);
 
-PG_FUNCTION_INFO_V1(get_datetimeoffset_tzoffset_internal);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_datetimeoffset_tzoffset_internal);
 
 
 /* datetimeoffset_in()

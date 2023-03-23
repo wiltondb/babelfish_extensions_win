@@ -34,8 +34,8 @@
 
 size_t CULTURE_COUNT = sizeof(datetimeformats)/sizeof(datetimeformat);
 
-PG_FUNCTION_INFO_V1(format_datetime);
-PG_FUNCTION_INFO_V1(format_numeric);
+PG_FUNCTION_INFO_V1_DLLEXPORT(format_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(format_numeric);
 
 /*
  *	Formats date, time related datatypes to char

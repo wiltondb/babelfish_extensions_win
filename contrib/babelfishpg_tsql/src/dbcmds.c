@@ -629,7 +629,7 @@ drop_bbf_db(const char *dbname, bool missing_ok, bool force_drop)
 	bbf_set_current_user(prev_current_user);
 }
 
-PG_FUNCTION_INFO_V1(create_builtin_dbs);
+PG_FUNCTION_INFO_V1_DLLEXPORT(create_builtin_dbs);
 Datum create_builtin_dbs(PG_FUNCTION_ARGS)
 {	
 	const char  *sql_dialect_value_old;
@@ -663,7 +663,7 @@ Datum create_builtin_dbs(PG_FUNCTION_ARGS)
 
 // This function is only being used for the purposes of the upgrade script to add the msdb database
 // It was first added in babelfishpg_tsql--1.2.0--1.3.0.sql
-PG_FUNCTION_INFO_V1(create_msdb_if_not_exists);
+PG_FUNCTION_INFO_V1_DLLEXPORT(create_msdb_if_not_exists);
 Datum create_msdb_if_not_exists(PG_FUNCTION_ARGS)
 {	
 	const char  *sql_dialect_value_old;
@@ -697,7 +697,7 @@ Datum create_msdb_if_not_exists(PG_FUNCTION_ARGS)
 }
 
 #define DROP_DB_BATCH_SIZE 32
-PG_FUNCTION_INFO_V1(drop_all_dbs);
+PG_FUNCTION_INFO_V1_DLLEXPORT(drop_all_dbs);
 Datum drop_all_dbs(PG_FUNCTION_ARGS)
 {
 	Relation		sysdatabase_rel;

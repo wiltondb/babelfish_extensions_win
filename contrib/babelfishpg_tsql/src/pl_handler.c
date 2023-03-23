@@ -149,7 +149,7 @@ static void revoke_type_permission_from_public(PlannedStmt *pstmt, const char *q
 		ProcessUtilityContext context, ParamListInfo params, QueryEnvironment *queryEnv, DestReceiver *dest, QueryCompletion *qc, List *type_name);
 static void set_current_query_is_create_tbl_check_constraint(Node *expr);
 
-PG_FUNCTION_INFO_V1(pltsql_inline_handler);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_inline_handler);
 
 static Oid lang_handler_oid = InvalidOid;     /* Oid of language handler function */
 static Oid lang_validator_oid = InvalidOid;   /* Oid of language validator function */
@@ -157,8 +157,8 @@ static Oid lang_validator_oid = InvalidOid;   /* Oid of language validator funct
 PG_MODULE_MAGIC;
 
 /* Module callbacks */
-void		_PG_init(void);
-void		_PG_fini(void);
+void PGDLLEXPORT _PG_init(void);
+void PGDLLEXPORT _PG_fini(void);
 
 /* Custom GUC variable */
 static const struct config_enum_entry variable_conflict_options[] = {
@@ -3309,7 +3309,7 @@ Name pltsql_cstr_to_name(char *s, int len)
 	return result;
 }
 
-PG_FUNCTION_INFO_V1(pltsql_truncate_identifier_func);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_truncate_identifier_func);
 
 Datum
 pltsql_truncate_identifier_func(PG_FUNCTION_ARGS)
@@ -3753,7 +3753,7 @@ pltsql_sys_function_pop(void)
  * call this function for execution of PL/tsql procedures.
  * ----------
  */
-PG_FUNCTION_INFO_V1(pltsql_call_handler);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_call_handler);
 
 Datum
 pltsql_call_handler(PG_FUNCTION_ARGS)
@@ -4139,7 +4139,7 @@ pltsql_inline_handler(PG_FUNCTION_ARGS)
  * CREATE FUNCTION time.
  * ----------
  */
-PG_FUNCTION_INFO_V1(pltsql_validator);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_validator);
 
 Datum
 pltsql_validator(PG_FUNCTION_ARGS)

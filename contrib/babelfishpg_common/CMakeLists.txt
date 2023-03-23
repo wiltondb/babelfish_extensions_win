@@ -39,5 +39,13 @@ target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include )
 set ( PG_SRC C:/projects/postgres/postgresql_modified_for_babelfish )
 target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_SRC} )
 
+target_include_directories ( ${PROJECT_NAME} PRIVATE C:/projects/postgres/icu_bin/include )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/lib/postgres.lib )
+target_link_libraries ( ${PROJECT_NAME} PRIVATE
+    C:/projects/postgres/icu_bin/lib64/icuin.lib 
+    C:/projects/postgres/icu_bin/lib64/icuuc.lib 
+    )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION ${PG_DIST}/lib )

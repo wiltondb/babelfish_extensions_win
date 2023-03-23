@@ -14,3 +14,6 @@ target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include )
 target_include_directories ( ${PROJECT_NAME} PRIVATE C:/projects/postgres/int128_win )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/lib/postgres.lib )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION ${PG_DIST}/lib )

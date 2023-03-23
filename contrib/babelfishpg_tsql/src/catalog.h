@@ -11,7 +11,7 @@
 /*****************************************
  * 			Catalog General
  *****************************************/
-extern Datum init_catalog(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum init_catalog(PG_FUNCTION_ARGS);
 
 /*****************************************
  * 			Catalog Hooks

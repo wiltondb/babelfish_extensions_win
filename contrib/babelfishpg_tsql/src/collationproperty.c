@@ -16,7 +16,7 @@
 #include "collation.h"
 #include "pltsql.h"
 
-PG_FUNCTION_INFO_V1(collationproperty);
+PG_FUNCTION_INFO_V1_DLLEXPORT(collationproperty);
 
 extern bytea *convertIntToSQLVariantByteA(int ret);
 extern  coll_info_t coll_infos[];

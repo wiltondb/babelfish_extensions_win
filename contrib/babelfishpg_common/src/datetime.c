@@ -19,29 +19,29 @@
 #include "datetime.h"
 
 
-PG_FUNCTION_INFO_V1(datetime_in);
-PG_FUNCTION_INFO_V1(datetime_out);
-PG_FUNCTION_INFO_V1(datetime_recv);
-PG_FUNCTION_INFO_V1(date_datetime);
-PG_FUNCTION_INFO_V1(time_datetime);
-PG_FUNCTION_INFO_V1(timestamp_datetime);
-PG_FUNCTION_INFO_V1(timestamptz_datetime);
-PG_FUNCTION_INFO_V1(datetime_varchar);
-PG_FUNCTION_INFO_V1(varchar_datetime);
-PG_FUNCTION_INFO_V1(datetime_char);
-PG_FUNCTION_INFO_V1(char_datetime);
-PG_FUNCTION_INFO_V1(datetime_pl_int4);
-PG_FUNCTION_INFO_V1(int4_mi_datetime);
-PG_FUNCTION_INFO_V1(int4_pl_datetime);
-PG_FUNCTION_INFO_V1(datetime_mi_int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_in);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_out);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_recv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(date_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(time_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamp_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(timestamptz_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_varchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_char);
+PG_FUNCTION_INFO_V1_DLLEXPORT(char_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_pl_int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4_mi_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4_pl_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_mi_int4);
 
-PG_FUNCTION_INFO_V1(datetime_pl_float8);
-PG_FUNCTION_INFO_V1(datetime_mi_float8);
-PG_FUNCTION_INFO_V1(float8_pl_datetime);
-PG_FUNCTION_INFO_V1(float8_mi_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_pl_float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_mi_float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8_pl_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8_mi_datetime);
 
-PG_FUNCTION_INFO_V1(datetime_pl_datetime);
-PG_FUNCTION_INFO_V1(datetime_mi_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_pl_datetime);
+PG_FUNCTION_INFO_V1_DLLEXPORT(datetime_mi_datetime);
 
 void CheckDatetimeRange(const Timestamp time);
 void CheckDatetimePrecision(fsec_t fsec);

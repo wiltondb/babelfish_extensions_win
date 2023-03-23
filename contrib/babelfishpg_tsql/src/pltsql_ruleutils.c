@@ -350,6 +350,8 @@ char *tsql_quote_qualified_identifier(const char *qualifier, const char *ident);
 const char *tsql_quote_identifier(const char *ident);
 int adjustTypmod(Oid oid, int typmod);
 
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_get_constraintdef);
+
 /*
  * tsql_get_constraintdef
  *
@@ -373,8 +375,6 @@ tsql_get_constraintdef(PG_FUNCTION_ARGS)
 	PG_RETURN_TEXT_P(string_to_text(res));
 }
 
-PG_FUNCTION_INFO_V1(tsql_get_constraintdef);
-
 /*
  * tsql_get_functiondef
  *		Returns the complete "CREATE OR REPLACE FUNCTION ..." statement for
@@ -385,7 +385,7 @@ PG_FUNCTION_INFO_V1(tsql_get_constraintdef);
  * function body.  To wit: the function body starts on a line that begins
  * with "AS ", and no preceding line will look like that.
  */
-PG_FUNCTION_INFO_V1(tsql_get_functiondef);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_get_functiondef);
 
 void tsql_print_function_rettype(StringInfo buf, HeapTuple proctup, int** typmod_arr_ret, int number_args);
 
@@ -483,7 +483,7 @@ tsql_get_functiondef(PG_FUNCTION_ARGS)
 	PG_RETURN_TEXT_P(string_to_text(buf.data));
 }
 
-PG_FUNCTION_INFO_V1(tsql_get_returnTypmodValue);
+PG_FUNCTION_INFO_V1_DLLEXPORT(tsql_get_returnTypmodValue);
 /*
  * function that will return the typmod value of return type
  */ 

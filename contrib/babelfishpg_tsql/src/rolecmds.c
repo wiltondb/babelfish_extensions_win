@@ -598,7 +598,7 @@ tsql_has_pgstat_permissions(Oid role)
 	return role_is_sa(GetSessionUserId()) || has_privs_of_role(GetSessionUserId(), role);
 }
 
-PG_FUNCTION_INFO_V1(initialize_logins);
+PG_FUNCTION_INFO_V1_DLLEXPORT(initialize_logins);
 Datum
 initialize_logins(PG_FUNCTION_ARGS)
 {
@@ -612,7 +612,7 @@ initialize_logins(PG_FUNCTION_ARGS)
 	PG_RETURN_INT32(0);
 }
 
-PG_FUNCTION_INFO_V1(user_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(user_name);
 Datum
 user_name(PG_FUNCTION_ARGS)
 {
@@ -671,7 +671,7 @@ user_name(PG_FUNCTION_ARGS)
 	PG_RETURN_TEXT_P(CStringGetTextDatum(user));
 }
 
-PG_FUNCTION_INFO_V1(user_id);
+PG_FUNCTION_INFO_V1_DLLEXPORT(user_id);
 Datum
 user_id(PG_FUNCTION_ARGS)
 {
@@ -712,7 +712,7 @@ user_id(PG_FUNCTION_ARGS)
 	PG_RETURN_OID(ret);
 }
 
-PG_FUNCTION_INFO_V1(suser_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(suser_name);
 Datum
 suser_name(PG_FUNCTION_ARGS)
 {
@@ -732,7 +732,7 @@ suser_name(PG_FUNCTION_ARGS)
 	PG_RETURN_TEXT_P(CStringGetTextDatum(ret));
 }
 
-PG_FUNCTION_INFO_V1(suser_id);
+PG_FUNCTION_INFO_V1_DLLEXPORT(suser_id);
 Datum
 suser_id(PG_FUNCTION_ARGS)
 {
@@ -776,7 +776,7 @@ suser_id(PG_FUNCTION_ARGS)
 	PG_RETURN_OID(ret);
 }
 
-PG_FUNCTION_INFO_V1(drop_all_logins);
+PG_FUNCTION_INFO_V1_DLLEXPORT(drop_all_logins);
 Datum drop_all_logins(PG_FUNCTION_ARGS)
 {
 	Relation	bbf_authid_login_ext_rel;
@@ -1044,7 +1044,7 @@ create_bbf_authid_user_ext(CreateRoleStmt *stmt, bool has_schema, bool has_login
 	add_to_bbf_authid_user_ext(stmt->role, original_user_name, NULL, default_schema, login_name_str, !has_login, true);
 }
 
-PG_FUNCTION_INFO_V1(add_existing_users_to_catalog);
+PG_FUNCTION_INFO_V1_DLLEXPORT(add_existing_users_to_catalog);
 Datum
 add_existing_users_to_catalog(PG_FUNCTION_ARGS)
 {
@@ -1360,7 +1360,7 @@ gen_droprole_subcmds(const char *user)
 	return res;
 }
 
-PG_FUNCTION_INFO_V1(drop_all_users);
+PG_FUNCTION_INFO_V1_DLLEXPORT(drop_all_users);
 Datum drop_all_users(PG_FUNCTION_ARGS)
 {
 	/*
@@ -1379,7 +1379,7 @@ Datum drop_all_users(PG_FUNCTION_ARGS)
 	PG_RETURN_INT32(0);
 }
 
-PG_FUNCTION_INFO_V1(babelfish_set_role);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_set_role);
 Datum
 babelfish_set_role(PG_FUNCTION_ARGS)
 {
@@ -1556,7 +1556,7 @@ is_empty_role(Oid roleid)
 	return false;
 }
 
-PG_FUNCTION_INFO_V1(role_id);
+PG_FUNCTION_INFO_V1_DLLEXPORT(role_id);
 Datum
 role_id(PG_FUNCTION_ARGS)
 {
@@ -1585,7 +1585,7 @@ role_id(PG_FUNCTION_ARGS)
 /*
  * Internal function for IS_MEMBER and IS_ROLEMEMBER
  */
-PG_FUNCTION_INFO_V1(is_rolemember);
+PG_FUNCTION_INFO_V1_DLLEXPORT(is_rolemember);
 Datum
 is_rolemember(PG_FUNCTION_ARGS)
 {

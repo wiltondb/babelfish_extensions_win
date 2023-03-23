@@ -9,8 +9,8 @@
 #include "utils/syscache.h"
 
 #define FN_MAPPED_SYSTEM_ERROR_LIST_COLS 4
-PG_FUNCTION_INFO_V1(babel_list_mapped_error);
-PG_FUNCTION_INFO_V1(babel_list_mapped_error_deprecated_in_2_2_0);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babel_list_mapped_error);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babel_list_mapped_error_deprecated_in_2_2_0);
 
 /*
  * Certain tsql error code can behave differently depending on when it is
@@ -533,12 +533,12 @@ babel_list_mapped_error(PG_FUNCTION_ARGS)
 /* 
  * ERROR_*() functions 
  */
-PG_FUNCTION_INFO_V1(pltsql_error_line);
-PG_FUNCTION_INFO_V1(pltsql_error_message);
-PG_FUNCTION_INFO_V1(pltsql_error_number);
-PG_FUNCTION_INFO_V1(pltsql_error_procedure);
-PG_FUNCTION_INFO_V1(pltsql_error_severity);
-PG_FUNCTION_INFO_V1(pltsql_error_state);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_line);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_message);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_number);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_procedure);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_severity);
+PG_FUNCTION_INFO_V1_DLLEXPORT(pltsql_error_state);
 
 Datum
 pltsql_error_line(PG_FUNCTION_ARGS)

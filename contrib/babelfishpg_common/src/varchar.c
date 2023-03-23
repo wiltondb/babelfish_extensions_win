@@ -348,39 +348,39 @@ void TsqlCheckUTF16Length_bpchar_input(const char *s, int32 len, int32 maxlen, i
 }
 
 /*  Function Registeration  */
-PG_FUNCTION_INFO_V1(bpcharin);
-PG_FUNCTION_INFO_V1(bpchar);
-PG_FUNCTION_INFO_V1(nchar);
-PG_FUNCTION_INFO_V1(bpcharrecv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpcharin);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(nchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpcharrecv);
 
-PG_FUNCTION_INFO_V1(bpchar2int2);
-PG_FUNCTION_INFO_V1(bpchar2int4);
-PG_FUNCTION_INFO_V1(bpchar2int8);
-PG_FUNCTION_INFO_V1(bpchar2float4);
-PG_FUNCTION_INFO_V1(bpchar2float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar2int2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar2int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar2int8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar2float4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpchar2float8);
 
-PG_FUNCTION_INFO_V1(varcharin);
-PG_FUNCTION_INFO_V1(varchar);
-PG_FUNCTION_INFO_V1(nvarchar);
-PG_FUNCTION_INFO_V1(varcharrecv);
-PG_FUNCTION_INFO_V1(varchareq);
-PG_FUNCTION_INFO_V1(varcharne);
-PG_FUNCTION_INFO_V1(varcharlt);
-PG_FUNCTION_INFO_V1(varcharle);
-PG_FUNCTION_INFO_V1(varchargt);
-PG_FUNCTION_INFO_V1(varcharge);
-PG_FUNCTION_INFO_V1(varcharcmp);
-PG_FUNCTION_INFO_V1(hashvarchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharin);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(nvarchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharrecv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchareq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharne);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharlt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharle);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchargt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharge);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharcmp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(hashvarchar);
 
-PG_FUNCTION_INFO_V1(varchar2int2);
-PG_FUNCTION_INFO_V1(varchar2int4);
-PG_FUNCTION_INFO_V1(varchar2int8);
-PG_FUNCTION_INFO_V1(varchar2float4);
-PG_FUNCTION_INFO_V1(varchar2float8);
-PG_FUNCTION_INFO_V1(varchar2date);
-PG_FUNCTION_INFO_V1(varchar2time);
-PG_FUNCTION_INFO_V1(varchar2money);
-PG_FUNCTION_INFO_V1(varchar2numeric);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2int2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2int4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2int8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2float4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2float8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2date);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2time);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2money);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varchar2numeric);
 
 /*****************************************************************************
  *	 varchar - varchar(n)

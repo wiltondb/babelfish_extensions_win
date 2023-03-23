@@ -17,7 +17,7 @@
 #include "utils/varlena.h"
 #include "datatypes.h"
 
-PG_FUNCTION_INFO_V1(databasepropertyex);
+PG_FUNCTION_INFO_V1_DLLEXPORT(databasepropertyex);
 
 extern bytea *convertVarcharToSQLVariantByteA(VarChar *vch, Oid coll);
 extern bytea *convertIntToSQLVariantByteA(int ret);

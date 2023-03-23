@@ -21,10 +21,10 @@
 #include "datatypes.h"
 
 
-PG_FUNCTION_INFO_V1(sp_getapplock_function);
-PG_FUNCTION_INFO_V1(sp_releaseapplock_function);
-PG_FUNCTION_INFO_V1(APPLOCK_MODE);
-PG_FUNCTION_INFO_V1(APPLOCK_TEST);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_getapplock_function);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sp_releaseapplock_function);
+PG_FUNCTION_INFO_V1_DLLEXPORT(APPLOCK_MODE);
+PG_FUNCTION_INFO_V1_DLLEXPORT(APPLOCK_TEST);
 
 /* 
  * Applock local and global hashmaps. The local one keeps track of applock 

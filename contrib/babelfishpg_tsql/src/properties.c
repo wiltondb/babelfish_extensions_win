@@ -46,10 +46,10 @@
 #include "collation.h"
 #include "datatypes.h"
 
-PG_FUNCTION_INFO_V1(connectionproperty);
-PG_FUNCTION_INFO_V1(serverproperty);
-PG_FUNCTION_INFO_V1(sessionproperty);
-PG_FUNCTION_INFO_V1(fulltextserviceproperty);
+PG_FUNCTION_INFO_V1_DLLEXPORT(connectionproperty);
+PG_FUNCTION_INFO_V1_DLLEXPORT(serverproperty);
+PG_FUNCTION_INFO_V1_DLLEXPORT(sessionproperty);
+PG_FUNCTION_INFO_V1_DLLEXPORT(fulltextserviceproperty);
 
 extern bool pltsql_ansi_nulls;
 extern bool pltsql_ansi_padding;

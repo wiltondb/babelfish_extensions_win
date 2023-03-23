@@ -34,49 +34,49 @@
 
 #include "instr.h"
 
-PG_FUNCTION_INFO_V1(varbinaryin);
-PG_FUNCTION_INFO_V1(varbinaryout);
-PG_FUNCTION_INFO_V1(varbinaryrecv);
-PG_FUNCTION_INFO_V1(varbinarysend);
-PG_FUNCTION_INFO_V1(varbinary);
-PG_FUNCTION_INFO_V1(binary);
-PG_FUNCTION_INFO_V1(varbinarytypmodin);
-PG_FUNCTION_INFO_V1(varbinarytypmodout);
-PG_FUNCTION_INFO_V1(byteavarbinary);
-PG_FUNCTION_INFO_V1(varbinarybytea);
-PG_FUNCTION_INFO_V1(varbinaryrowversion);
-PG_FUNCTION_INFO_V1(rowversionbinary);
-PG_FUNCTION_INFO_V1(rowversionvarbinary);
-PG_FUNCTION_INFO_V1(varcharvarbinary);
-PG_FUNCTION_INFO_V1(bpcharvarbinary);
-PG_FUNCTION_INFO_V1(varbinaryvarchar);
-PG_FUNCTION_INFO_V1(varcharbinary);
-PG_FUNCTION_INFO_V1(bpcharbinary);
-PG_FUNCTION_INFO_V1(varcharrowversion);
-PG_FUNCTION_INFO_V1(bpcharrowversion);
-PG_FUNCTION_INFO_V1(int2varbinary);
-PG_FUNCTION_INFO_V1(int4varbinary);
-PG_FUNCTION_INFO_V1(int8varbinary);
-PG_FUNCTION_INFO_V1(int2binary);
-PG_FUNCTION_INFO_V1(int4binary);
-PG_FUNCTION_INFO_V1(int8binary);
-PG_FUNCTION_INFO_V1(int2rowversion);
-PG_FUNCTION_INFO_V1(int4rowversion);
-PG_FUNCTION_INFO_V1(int8rowversion);
-PG_FUNCTION_INFO_V1(varbinaryint2);
-PG_FUNCTION_INFO_V1(varbinaryint4);
-PG_FUNCTION_INFO_V1(varbinaryint8);
-PG_FUNCTION_INFO_V1(binaryint2);
-PG_FUNCTION_INFO_V1(binaryint4);
-PG_FUNCTION_INFO_V1(binaryint8);
-PG_FUNCTION_INFO_V1(float4varbinary);
-PG_FUNCTION_INFO_V1(float8varbinary);
-PG_FUNCTION_INFO_V1(varbinaryfloat4);
-PG_FUNCTION_INFO_V1(varbinaryfloat8);
-PG_FUNCTION_INFO_V1(float4binary);
-PG_FUNCTION_INFO_V1(float8binary);
-PG_FUNCTION_INFO_V1(binaryfloat4);
-PG_FUNCTION_INFO_V1(binaryfloat8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryin);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryout);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryrecv);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinarysend);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinarytypmodin);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinarytypmodout);
+PG_FUNCTION_INFO_V1_DLLEXPORT(byteavarbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinarybytea);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryrowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(rowversionbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(rowversionvarbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharvarbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpcharvarbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryvarchar);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpcharbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varcharrowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(bpcharrowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int2varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int8varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int2binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int8binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int2rowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int4rowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(int8rowversion);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryint2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryint4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryint8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binaryint2);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binaryint4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binaryint8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float4varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8varbinary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryfloat4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinaryfloat8);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float4binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(float8binary);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binaryfloat4);
+PG_FUNCTION_INFO_V1_DLLEXPORT(binaryfloat8);
 
 /*****************************************************************************
  *	 USER I/O ROUTINES														 *
@@ -1405,13 +1405,13 @@ inline varbinarycompare(bytea *source1, bytea *source2)
 	return 0;
 }
 
-PG_FUNCTION_INFO_V1(varbinary_eq);
-PG_FUNCTION_INFO_V1(varbinary_neq);
-PG_FUNCTION_INFO_V1(varbinary_gt);
-PG_FUNCTION_INFO_V1(varbinary_geq);
-PG_FUNCTION_INFO_V1(varbinary_lt);
-PG_FUNCTION_INFO_V1(varbinary_leq);
-PG_FUNCTION_INFO_V1(varbinary_cmp);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_eq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_neq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_gt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_geq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_lt);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_leq);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_cmp);
 
 Datum
 varbinary_eq (PG_FUNCTION_ARGS)
@@ -1476,7 +1476,7 @@ varbinary_cmp (PG_FUNCTION_ARGS)
 }
 
 
-PG_FUNCTION_INFO_V1(varbinary_length);
+PG_FUNCTION_INFO_V1_DLLEXPORT(varbinary_length);
 
 Datum
 varbinary_length (PG_FUNCTION_ARGS)

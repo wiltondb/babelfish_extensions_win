@@ -1435,7 +1435,7 @@ babelfish_define_type_default_collation(Oid typeNamespace)
 	return server_collation_oid;
 }
 
-PG_FUNCTION_INFO_V1(get_babel_server_collation_oid);
+PG_FUNCTION_INFO_V1_DLLEXPORT(get_babel_server_collation_oid);
 
 Datum
 get_babel_server_collation_oid(PG_FUNCTION_ARGS)
@@ -1443,7 +1443,7 @@ get_babel_server_collation_oid(PG_FUNCTION_ARGS)
 	PG_RETURN_OID(get_server_collation_oid_internal(false));
 }
 
-PG_FUNCTION_INFO_V1(babelfish_update_server_collation_name);
+PG_FUNCTION_INFO_V1_DLLEXPORT(babelfish_update_server_collation_name);
 
 /*
  * babelfish_update_server_collation_name - corresponding to sys.babelfish_update_server_collation_name() function
