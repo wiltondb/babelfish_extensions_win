@@ -21,7 +21,7 @@ my $in_comment = 0;
 my $brace_indent = 0;
 my $brace_started = 0; # did prev line start a new brace?
 
-#print "\#line $linecnt \"$base_file_name\"\n";
+#print "//line $linecnt \"$base_file_name\"\n";
 
 while ($line = <STDIN>) {
 	$line =~ s/\r//g;
@@ -33,7 +33,7 @@ while ($line = <STDIN>) {
 
 		print " /** START OF include: $fname **/\n";
 		if ($fname =~ /(.*).(h|c)$/) {
-			print "\#line 1 \"$fname\"\n";
+			print "//line 1 \"$fname\"\n";
 		}
 
 		my $inc_linecnt = 1;
@@ -48,7 +48,7 @@ while ($line = <STDIN>) {
 			if ($brace_started eq 1 && $brace_indent eq 1)
 			{
 				# add #line directive for debugging convenience
-				print "\#line $inc_linecnt \"$fname\"\n";
+				print "//line $inc_linecnt \"$fname\"\n";
 			}
 
 			$brace_started = 0;
@@ -56,7 +56,7 @@ while ($line = <STDIN>) {
 
 		print " /** END OF include: $fname **/\n";
 		if ($fname =~ /(.*).(h|c)$/) {
-			print "\#line $linecnt \"$base_file_name\"\n";
+			print "//line $linecnt \"$base_file_name\"\n";
 		}
 		close(F);
 		next;
@@ -77,7 +77,7 @@ while ($line = <STDIN>) {
 	if ($in_prologue eq 0 && $brace_started eq 1 && $brace_indent eq 1)
 	{
 		# add #line directive for debugging convenience
-		print "\#line $linecnt \"$base_file_name\"\n";
+		print "//line $linecnt \"$base_file_name\"\n";
 	}
 	$brace_started = 0;
 }

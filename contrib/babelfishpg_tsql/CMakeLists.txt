@@ -14,8 +14,11 @@ execute_process ( COMMAND perl
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/kwlist.h
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR} )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/bison.exe
-    -d -o pl_gram.c pl_gram.y
+set ( BISON_EXE C:/projects/postgres/tools/win_flex_bison-2.5.25/win_bison.exe )
+set ( FLEX_EXE C:/projects/postgres/tools/win_flex_bison-2.5.25/win_flex.exe )
+
+execute_process ( COMMAND ${BISON_EXE}
+    --no-lines -d -o pl_gram.c pl_gram.y
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src )
 
 execute_process ( COMMAND perl
@@ -25,8 +28,8 @@ execute_process ( COMMAND perl
     INPUT_FILE ${PG_SRC}/src/backend/parser/gram.y
     OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/gram-backend.y )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/bison.exe
-    -d -o gram-backend.c gram-backend.y
+execute_process ( COMMAND ${BISON_EXE}
+    --no-lines -d -o gram-backend.c gram-backend.y
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser )
 
 execute_process ( COMMAND perl
@@ -36,8 +39,8 @@ execute_process ( COMMAND perl
     INPUT_FILE ${PG_SRC}/src/backend/parser/scan.l
     OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/scan-backend.l )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/flex.exe
-    -b -CF -p -p -o scan-backend.c scan-backend.l 
+execute_process ( COMMAND ${FLEX_EXE}
+    -L -b -CF -p -p -o scan-backend.c scan-backend.l 
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser )
 
 execute_process ( COMMAND perl
@@ -130,7 +133,7 @@ target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_SRC} )
 target_include_directories ( ${PROJECT_NAME} PRIVATE C:/projects/postgres/antlr4/runtime/Cpp/runtime/src )
 target_include_directories ( ${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/antlr/build/antlr4cpp_generated_src )
 
-target_compile_definitions ( ${PROJECT_NAME} PRIVATE ANTLR4CPP_STATIC )
+target_compile_definitions ( ${PROJECT_NAME} PRIVATE ANTLR4CPP_STATIC BABEL_TMP )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE
         ${PG_DIST}/lib/postgres.lib
