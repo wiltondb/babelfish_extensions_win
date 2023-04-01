@@ -240,11 +240,11 @@ throw_error_buffer(void *arg, int *num_occurrences)
 	int			can = 0;
 	char		tem[10] = "aaaaaaaaaa";
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Warray-bounds"
-#pragma GCC diagnostic ignored "-Wstringop-overflow"
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Warray-bounds"
+//#pragma GCC diagnostic ignored "-Wstringop-overflow"
 	memcpy(buffer, tem, 10);
-#pragma GCC diagnostic pop
+//#pragma GCC diagnostic pop
 	if (can != 0)
 		elog(LOG, "Buffer overflowed \n");
 	else

@@ -18,9 +18,9 @@ extern void init_instr(void);
 	(instr_plugin_ptr && instr_plugin_ptr->instr_increment_metric)
 
 #define INSTR_METRIC_INC(metric)												\
-({	if (INSTR_ENABLED())		\
+  	if (INSTR_ENABLED()) {	\
 		instr_plugin_ptr->instr_increment_metric(metric);		\
-})
+}
 
 /* copy from pltsql_instr.h */
 typedef enum PgTsqlInstrMetricType

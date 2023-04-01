@@ -28,6 +28,6 @@ typedef struct TdsInstrPlugin
 extern TdsInstrPlugin **tds_instr_plugin_ptr;
 
 #define TDSInstrumentation(metric)												\
-({	if ((tds_instr_plugin_ptr && (*tds_instr_plugin_ptr) && (*tds_instr_plugin_ptr)->tds_instr_increment_metric))	\
+		if ((tds_instr_plugin_ptr && (*tds_instr_plugin_ptr) && (*tds_instr_plugin_ptr)->tds_instr_increment_metric)) {	\
 		(*tds_instr_plugin_ptr)->tds_instr_increment_metric(metric);		\
-})
+}

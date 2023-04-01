@@ -1,19 +1,28 @@
 # minimum required CMAKE version
 CMAKE_MINIMUM_REQUIRED(VERSION 3.7 FATAL_ERROR)
 
+project ( babelfishpg_tsql C CXX )
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-dir)
+
+if ( NOT DEFINED ENV{PGWIN_DEPS_DIR} )
+    message( FATAL_ERROR "Environment variable 'PGWIN_DEPS_DIR' (pointing to the pgwin_deps installation directory) must be specified" )
+endif ()
+if ( NOT DEFINED ENV{ANTLR4_JAVA_BIN} )
+    message( FATAL_ERROR "Environment variable 'ANTLR4_JAVA_BIN' (pointing to the java.exe) must be specified" )
+endif ()
 
 # compiler must be 11 or 14
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
+#set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2 -ggdb -w -Wno-deprecated")
 
-message(STATUS "CMAKE_C_FLAGS=${CMAKE_C_FLAGS}")
+#message(STATUS "CMAKE_C_FLAGS=${CMAKE_C_FLAGS}")
 
 # add antrl4cpp artifacts to project environment
 #include_directories($ENV{ANTLR4_RUNTIME_INCLUDE_DIR})
 SET (MYDIR /usr/local/include/antlr4-runtime/)
-include_directories(${MYDIR})
+include_directories( $ENV{PGWIN_DEPS_DIR}/antlr4_cpp_runtime/include/antlr4-runtime )
 
 # set variable pointing to the antlr tool that supports C++
 # this is not required if the jar file can be found under PATH environment
@@ -30,4 +39,13 @@ antlr_target(SampleGrammarParser TSqlParser.g4 PARSER LISTENER VISITOR
 include_directories(${ANTLR_SampleGrammarLexer_OUTPUT_DIR})
 include_directories(${ANTLR_SampleGrammarParser_OUTPUT_DIR})
 
+add_custom_target ( add_u8_prefix_to_fix_C4566
+        COMMAND perl ${CMAKE_CURRENT_LIST_DIR}/fix_C4566.pl
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/antlr4cpp_generated_src
+        COMMENT "Fixing C4566"
+        DEPENDS ${ANTLR_SampleGrammarLexer_CXX_OUTPUTS} ${ANTLR_SampleGrammarParser_CXX_OUTPUTS} )
+
 add_library(antlr_tsql STATIC ${ANTLR_SampleGrammarLexer_CXX_OUTPUTS} ${ANTLR_SampleGrammarParser_CXX_OUTPUTS})
+target_compile_options ( antlr_tsql PRIVATE /bigobj )
+target_compile_definitions ( antlr_tsql PRIVATE ANTLR4CPP_STATIC )
+add_dependencies ( antlr_tsql add_u8_prefix_to_fix_C4566 )

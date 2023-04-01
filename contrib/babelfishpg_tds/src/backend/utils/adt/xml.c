@@ -94,8 +94,8 @@
 #include "utils/xml.h"
 
 /* GUC variables */
-int			xmlbinary;
-int			xmloption;
+//int			xmlbinary;
+//int			xmloption;
 
 #ifdef USE_LIBXML
 
@@ -727,7 +727,7 @@ tds_xml_parse(text *data, int xmloption_arg, bool preserve_whitespace,
 void
 tds_xmlFreeDoc(void *doc)
 {
-	return xmlFreeDoc(doc);
+	xmlFreeDoc(doc);
 }
 
 int

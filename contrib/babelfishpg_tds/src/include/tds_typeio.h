@@ -40,7 +40,8 @@ typedef int (*TdsSendTypeFunction) (FmgrInfo *finfo, Datum value,
 									void *vMetaData);
 
 /* COLMETADATA entry for types like INTEGER and SMALLINT */
-typedef struct __attribute__ ((packed))
+__pragma(pack(push, 1))
+typedef struct 
 ColMetaEntry1
 {
 	uint16_t	flags;
@@ -49,7 +50,7 @@ ColMetaEntry1
 } ColMetaEntry1;
 
 /* COLMETADATA entry for types like NVARCHAR */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry2
 {
 	uint16_t	flags;
@@ -66,7 +67,7 @@ ColMetaEntry2
 
 
 /* COLMETADATA entry for types like TEXT */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry3
 {
 	uint16_t	flags;
@@ -82,7 +83,7 @@ ColMetaEntry3
 } ColMetaEntry3;
 
 /* COLMETADATA entry for type like DATE */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry4
 {
 	uint16_t	flags;
@@ -90,7 +91,7 @@ ColMetaEntry4
 } ColMetaEntry4;
 
 /* COLMETADATA entry for type NUMERIC */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry5
 {
 	uint16_t	flags;
@@ -101,7 +102,7 @@ ColMetaEntry5
 } ColMetaEntry5;
 
 /* COLMETADATA entry for type like TIME, DATETIME2, DATETIMEOFFSET */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry6
 {
 	uint16_t	flags;
@@ -110,7 +111,7 @@ ColMetaEntry6
 } ColMetaEntry6;
 
 /* COLMETADATA entry for types like BINARY VARBINARY */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry7
 {
 	uint16_t	flags;
@@ -119,13 +120,14 @@ ColMetaEntry7
 } ColMetaEntry7;
 
 /* COLMETADATA entry for type like IMAGE */
-typedef struct __attribute__ ((packed))
+typedef struct
 ColMetaEntry8
 {
 	uint16_t	flags;
 	uint8_t		tdsTypeId;
 	uint32_t	maxSize;
 } ColMetaEntry8;
+__pragma(pack(pop))
 
 typedef union ColMetaEntry
 {

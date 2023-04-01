@@ -88,29 +88,31 @@
  * for decimal types, precision and scale are encoded
  * for datetime2, datetimeoffset it is scale
  */
-typedef struct __attribute__ ((packed)) svhdr_1B
+__pragma(pack(push, 1))
+typedef struct svhdr_1B
 {
 	uint8_t		metadata;
 } svhdr_1B_t;
 
-typedef struct __attribute__ ((packed)) svhdr_2B
+typedef struct svhdr_2B
 {
 	uint8_t		metadata;
 	int8_t		typmod;
 } svhdr_2B_t;
 
-typedef struct __attribute__ ((packed)) svhdr_3B
+typedef struct svhdr_3B
 {
 	uint8_t		metadata;
 	int16_t		typmod;
 } svhdr_3B_t;
 
-typedef struct __attribute__ ((packed)) svhdr_5B
+typedef struct svhdr_5B
 {
 	uint8_t		metadata;
 	int16_t		typmod;
 	uint16_t	collid;
 } svhdr_5B_t;
+__pragma(pack(pop))
 
 extern bytea *gen_sqlvariant_bytea_from_type_datum(size_t typcode, Datum data);
 extern bytea *convertVarcharToSQLVariantByteA(VarChar *vch, Oid coll);

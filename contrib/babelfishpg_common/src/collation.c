@@ -423,7 +423,7 @@ locale_info locales[] =
 	{0x043e, 1252, PG_WIN1252, "ms-MY"}, //Malay:Malaysia
 	/* {0x044e, 	0, 	"mr-IN"}, // Marathi: India */
 	{0x0450, 1251, PG_WIN1251, "mn-MN"}, //Mongolian:Mongolia
-	{0x0414, 1252, PG_WIN1252, "nb-NO"}, //Norwegian:Norway(BokmÃ ¥ l)
+	{0x0414, 1252, PG_WIN1252, "nb-NO"}, //Norwegian:Norway(Bokmï¿½ ï¿½ l)
 	{0x0814, 1252, PG_WIN1252, "nn-NO"}, //Norwegian:Norway(Nynorsk)
 	{0x0415, 1250, PG_WIN1250, "pl-PL"}, //Polish:Poland
 	{0x0416, 1252, PG_WIN1252, "pt-BR"}, //Portuguese:Brazil
@@ -1352,7 +1352,7 @@ tdscollationproperty_helper(const char *collationname, const char *property)
 	{
 		coll_info	coll = coll_infos[collidx];
 
-		if (strcasecmp(property, "tdscollation") == 0)
+		if (pg_strcasecmp(property, "tdscollation") == 0)
 		{
 			/*
 			 * ret here is of 8 bytes tdscollation should return 5 bytes Below
@@ -1394,13 +1394,13 @@ collationproperty_helper(const char *collationname, const char *property)
 	{
 		coll_info	coll = coll_infos[collidx];
 
-		if (strcasecmp(property, "CodePage") == 0)
+		if (pg_strcasecmp(property, "CodePage") == 0)
 			return coll.code_page;
-		else if (strcasecmp(property, "LCID") == 0)
+		else if (pg_strcasecmp(property, "LCID") == 0)
 			return coll.lcid;
-		else if (strcasecmp(property, "ComparisonStyle") == 0)
+		else if (pg_strcasecmp(property, "ComparisonStyle") == 0)
 			return coll.style;
-		else if (strcasecmp(property, "Version") == 0)
+		else if (pg_strcasecmp(property, "Version") == 0)
 			return coll.ver;
 
 		/*
@@ -1408,9 +1408,9 @@ collationproperty_helper(const char *collationname, const char *property)
 		 * sp_describe_first_result_set to return correct tds_collation_id and
 		 * tds_collation_sort_id fields.
 		 */
-		else if (strcasecmp(property, "CollationId") == 0)
+		else if (pg_strcasecmp(property, "CollationId") == 0)
 			return ((coll.collateflags << 20) | coll.lcid);
-		else if (strcasecmp(property, "SortId") == 0)
+		else if (pg_strcasecmp(property, "SortId") == 0)
 			return coll.sortid;
 		else
 			return -1;			/* Invalid property. */
