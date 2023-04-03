@@ -1118,7 +1118,8 @@ create_guest_schema_for_all_dbs(PG_FUNCTION_ARGS)
 		while (HeapTupleIsValid(tuple))
 		{
 			bbf_db = (Form_sysdatabases) GETSTRUCT(tuple);
-			dbname = text_to_cstring(&(bbf_db->name));
+			// todo: fixme
+			dbname = text_to_cstring((bbf_db->name));
 
 			create_schema_if_not_exists(bbf_db->dbid, dbname, "guest", "guest");
 

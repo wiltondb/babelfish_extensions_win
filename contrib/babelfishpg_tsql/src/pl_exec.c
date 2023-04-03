@@ -64,6 +64,8 @@
 #include "guc.h"
 #include "catalog.h"
 
+#include "src/tsql_win.h"
+
 uint64		rowcount_var = 0;
 List	   *columns_updated_list = NIL;
 static char *original_query_string = NULL;
@@ -4405,6 +4407,7 @@ execute_txn_command(PLtsql_execstate *estate, PLtsql_stmt_execsql *stmt)
 		ereport(ERROR,
 				(errcode(ERRCODE_INVALID_TRANSACTION_TERMINATION),
 				 errmsg("invalid transaction command")));
+		return PLTSQL_RC_EXIT;
 }
 
 /*

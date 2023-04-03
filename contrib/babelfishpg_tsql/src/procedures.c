@@ -46,6 +46,8 @@
 #include "session.h"
 #include "pltsql.h"
 
+#include "src/tsql_win.h"
+
 PG_FUNCTION_INFO_V1(sp_unprepare);
 PG_FUNCTION_INFO_V1(sp_prepare);
 PG_FUNCTION_INFO_V1(sp_babelfish_configure);

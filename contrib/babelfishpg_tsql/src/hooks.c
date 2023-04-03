@@ -65,6 +65,8 @@
 #include "multidb.h"
 #include "tsql_analyze.h"
 
+#include "src/tsql_win.h"
+
 #define TDS_NUMERIC_MAX_PRECISION	38
 extern bool babelfish_dump_restore;
 extern char *babelfish_dump_restore_min_oid;
@@ -1662,7 +1664,7 @@ get_tsql_trigger_oid(List *object, const char *tsql_trigger_name, bool object_fr
 			reloid = pg_trigger->tgrelid;
 			relation = RelationIdGetRelation(reloid);
 			pg_trigger_physical_schema = get_namespace_name(get_rel_namespace(pg_trigger->tgrelid));
-			if (strcasecmp(pg_trigger_physical_schema, cur_physical_schema) == 0)
+			if (pg_strcasecmp(pg_trigger_physical_schema, cur_physical_schema) == 0)
 			{
 				trigger_rel_oid = reloid;
 				RelationClose(relation);

@@ -1,3 +1,7 @@
+
+#define fstat microsoft_native_fstat
+#define stat microsoft_native_stat
+
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -5,15 +9,18 @@
 #include <string>
 #include <unordered_map>
 
+#ifndef _MSC_VER
 #pragma GCC diagnostic ignored "-Wattributes"
+#endif // !_MSC_VER
 
+#define NOMINMAX
 #include "antlr4-runtime.h" // antlr4-cpp-runtime
 #include "tree/ParseTreeWalker.h" // antlr4-cpp-runtime
 #include "tree/ParseTreeProperty.h" // antlr4-cpp-runtime
 
-#include "../antlr/antlr4cpp_generated_src/TSqlLexer/TSqlLexer.h"
-#include "../antlr/antlr4cpp_generated_src/TSqlParser/TSqlParser.h"
-#include "../antlr/antlr4cpp_generated_src/TSqlParser/TSqlParserBaseListener.h"
+#include "TSqlLexer/TSqlLexer.h"
+#include "TSqlParser/TSqlParser.h"
+#include "TSqlParser/TSqlParserBaseListener.h"
 #include "tsqlIface.hpp"
 
 #define LOOP_JOIN_HINT 0
@@ -27,8 +34,10 @@
 #define RAISE_ERROR_PARAMS_LIMIT 20
 
 
+#ifndef _MSC_VER
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wregister"
+#endif // !_MSC_VER
 extern "C" {
 #if 0
 #include "tsqlNodes.h"
@@ -44,13 +53,21 @@ extern "C" {
 
 #include "guc.h"
 
+#include "src/tsql_win.h"
+
 #endif
 
 #ifdef LOG // maybe already defined in elog.h, which is conflicted with grammar token LOG
 #undef LOG
 #endif
 }
+#ifndef _MSC_VER
 #pragma GCC diagnostic pop
+#endif // !_MSC_VER
+
+#undef ABSOLUTE
+#undef RELATIVE
+#undef OUT
 
 using namespace std;
 using namespace antlr4;
@@ -2579,8 +2596,10 @@ antlr_parse_query(const char *sourceText, bool useSLLParsing) {
 
 extern "C"
 {
+#ifndef _MSC_VER
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-security"
+#endif // !_MSC_VER
 
 void report_antlr_error(ANTLR_result r)
 {
@@ -2610,7 +2629,9 @@ void report_antlr_error(ANTLR_result r)
 	}
 }
 
+#ifndef _MSC_VER
 #pragma GCC diagnostic pop
+#endif // !_MSC_VER
 } // extern "C"
 
 template <class T>
@@ -2914,7 +2935,7 @@ handleBatchLevelStatement(TSqlParser::Batch_level_statementContext *ctx, tsqlSel
 	init->label = NULL;
 	init->inits = rootInitializers;
 
-	result->body = list_make1(init);
+	result->body = list_make1_win(init);
 	// create PLtsql_stmt_execsql to wrap all query string
 	PLtsql_stmt_execsql *execsql = (PLtsql_stmt_execsql *) makeSQL(ctx);
 	execsql->original_query = pstrdup((makeTsqlExpr(ctx, false))->query);
@@ -2952,7 +2973,7 @@ handleITVFBody(TSqlParser::Func_body_return_select_bodyContext *ctx)
 	result->n_initvars = 0;
 	result->initvarnos = nullptr;
 	result->exceptions = nullptr;
-	result->body = list_make1(makeReturnQueryStmt(ctx->select_statement_standalone(), true/*itvf*/));
+	result->body = list_make1_win(makeReturnQueryStmt(ctx->select_statement_standalone(), true/*itvf*/));
 
 	pltsql_parse_result = result;
 
@@ -3650,7 +3671,7 @@ makeBatch(TSqlParser::Tsql_fileContext *ctx, tsqlBuilder &builder)
 	init->label = NULL;
 	init->inits = rootInitializers;
 
-	result->body = list_make1(init);
+	result->body = list_make1_win(init);
 
 	List *code = builder.getCode(ctx);
 	ListCell *s;
@@ -3953,7 +3974,7 @@ makePrintStmt(TSqlParser::Print_statementContext *ctx)
 	PLtsql_stmt_print *result = (PLtsql_stmt_print *) palloc0(sizeof(*result));
 
 	result->cmd_type = PLTSQL_STMT_PRINT;
-	result->exprs = list_make1(makeTsqlExpr(ctx->expression(), true));
+	result->exprs = list_make1_win(makeTsqlExpr(ctx->expression(), true));
 
 	return result;
 }

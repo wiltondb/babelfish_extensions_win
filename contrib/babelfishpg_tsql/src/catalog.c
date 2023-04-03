@@ -801,7 +801,8 @@ is_role(Oid role_oid)
 		is_role = false;
 	else
 	{
-		type = ((Form_authid_user_ext) GETSTRUCT(tuple))->type;
+		// todo: fixme
+		type = *((Form_authid_user_ext) GETSTRUCT(tuple))->type;
 		type_str = bpchar_to_cstring(&type);
 
 		if (strcmp(type_str, "R") != 0)
@@ -1819,7 +1820,8 @@ static Datum
 get_name_db_owner(HeapTuple tuple, TupleDesc dsc)
 {
 	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
-	const text *name = &(sysdb->name);
+	// todo: fixme
+	const text *name = (sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_db_owner = palloc0(MAX_BBF_NAMEDATALEND);
 
@@ -1833,7 +1835,8 @@ static Datum
 get_name_dbo(HeapTuple tuple, TupleDesc dsc)
 {
 	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
-	const text *name = &(sysdb->name);
+	// todo: fixme
+	const text *name = (sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_dbo = palloc0(MAX_BBF_NAMEDATALEND);
 
@@ -1847,7 +1850,8 @@ static Datum
 get_name_guest(HeapTuple tuple, TupleDesc dsc)
 {
 	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
-	const text *name = &(sysdb->name);
+	// todo: fixme
+	const text *name = (sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_dbo = palloc0(MAX_BBF_NAMEDATALEND);
 

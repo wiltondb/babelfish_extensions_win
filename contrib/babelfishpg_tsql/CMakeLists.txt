@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.crg/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,11 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required ( VERSION 3.0 )
+cmake_minimum_required ( VERSION 3.19 )
 
 project ( babelfishpg_tsql C CXX )
 
-set(CMAKE_CXX_STANDARD 14)
+if ( CMAKE_BUILD_TYPE MATCHES "" )
+    set ( CMAKE_BUILD_TYPE Debug )
+endif ( )
 
 if ( NOT DEFINED ENV{PGWIN_DEPS_DIR} )
     message( FATAL_ERROR "Environment variable 'PGWIN_DEPS_DIR' (pointing to the pgwin_deps installation directory) must be specified" )
@@ -28,57 +30,70 @@ if ( NOT DEFINED ENV{PGWIN_SRC_DIR} )
     message( FATAL_ERROR "Environment variable 'PGWIN_SRC_DIR' (pointing to the postgresql_modified_for_babelfish source directory) must be specified" )
 endif ()
 
+message ( STATUS "Generating code" )
+
 execute_process ( COMMAND perl
-    -I ${PG_SRC}/src/tools 
-    ${PG_SRC}/src/tools/gen_keywordlist.pl
+    -I $ENV{PGWIN_SRC_DIR}/src/tools 
+    $ENV{PGWIN_SRC_DIR}/src/tools/gen_keywordlist.pl
     --output src/backend_parser
     --varname pgtsql_ScanKeywords
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/kwlist.h
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR} )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/bison.exe
-    -d -o pl_gram.c pl_gram.y
+execute_process ( COMMAND $ENV{PGWIN_DEPS_DIR}/bison/bison.exe
+    --warnings=none --no-lines -d -o pl_gram.c pl_gram.y
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src )
 
 execute_process ( COMMAND perl
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/include.pl
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser
     gram.y
-    INPUT_FILE ${PG_SRC}/src/backend/parser/gram.y
-    OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/gram-backend.y )
+    INPUT_FILE $ENV{PGWIN_SRC_DIR}/src/backend/parser/gram.y
+    OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/gram-backend.y
+    COMMAND_ERROR_IS_FATAL ANY )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/bison.exe
-    -d -o gram-backend.c gram-backend.y
+execute_process ( COMMAND $ENV{PGWIN_DEPS_DIR}/bison/bison.exe
+    --warnings=none --no-lines -d -o gram-backend.c gram-backend.y
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser )
 
 execute_process ( COMMAND perl
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/include.pl
     ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser
     scan.l
-    INPUT_FILE ${PG_SRC}/src/backend/parser/scan.l
-    OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/scan-backend.l )
+    INPUT_FILE $ENV{PGWIN_SRC_DIR}/src/backend/parser/scan.l
+    OUTPUT_FILE ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/scan-backend.l
+    COMMAND_ERROR_IS_FATAL ANY )
 
-execute_process ( COMMAND C:/projects/postgres/tools/msys/bin/flex.exe
-    -b -CF -p -p -o scan-backend.c scan-backend.l 
+execute_process ( COMMAND $ENV{PGWIN_DEPS_DIR}/bison/flex.exe
+    -w -L -b -CF -p -p -o scan-backend.c scan-backend.l 
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser )
 
 execute_process ( COMMAND perl
-    ${PG_SRC}/src/tools/fix-old-flex-code.pl
-    ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/scan-backend.c )
+    $ENV{PGWIN_SRC_DIR}/src/tools/fix-old-flex-code.pl
+    ${CMAKE_CURRENT_LIST_DIR}/src/backend_parser/scan-backend.c 
+    COMMAND_ERROR_IS_FATAL ANY )
 
 execute_process ( COMMAND perl
-    -I ${PG_SRC}/src/tools 
-    ${PG_SRC}/src/tools/gen_keywordlist.pl
+    -I $ENV{PGWIN_SRC_DIR}/src/tools 
+    $ENV{PGWIN_SRC_DIR}/src/tools/gen_keywordlist.pl
     --varname ReservedPLKeywords
     ${CMAKE_CURRENT_LIST_DIR}/src/pl_reserved_kwlist.h
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR} )
  
 execute_process ( COMMAND perl
-    -I ${PG_SRC}/src/tools 
-    ${PG_SRC}/src/tools/gen_keywordlist.pl
+    -I $ENV{PGWIN_SRC_DIR}/src/tools 
+    $ENV{PGWIN_SRC_DIR}/src/tools/gen_keywordlist.pl
     --varname UnreservedPLKeywords
     ${CMAKE_CURRENT_LIST_DIR}/src/pl_unreserved_kwlist.h
+    COMMAND_ERROR_IS_FATAL ANY
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR} )
+
+set(CMAKE_CXX_STANDARD 14)
 
 add_library ( ${PROJECT_NAME} SHARED 
     src/pl_gram.c
@@ -111,10 +126,10 @@ add_library ( ${PROJECT_NAME} SHARED
     src/collation.c
     src/string.c
     src/format.c
-    src/forxml.c
     src/pltsql_identity.c
     src/collationproperty.c
     src/rolecmds.c
+    src/linked_servers.c
     src/backend_parser/keywords.c
     src/backend_parser/parser.c
     src/backend_parser/scan-backend.c
@@ -134,28 +149,93 @@ add_library ( ${PROJECT_NAME} SHARED
     src/multidb.c
     src/json_funcs.c
     src/pltsql_ruleutils.c
-    src/forjson.c 
+    src/tsql_for/tsql_for.c
+    src/tsql_for/forjson.c
+    src/tsql_for/forjson_old.c
+    src/tsql_for/forxml.c
+    src/tsql_for/forxml_old.c
+    src/tsql_analyze.c
     src/pltsql_bulkcopy.c
-    src/win_utils.c )
+    src/tsql_win.c
+    src/tsql_winx.cpp
+    
+    src/rolecmds.h
+    src/linked_servers.h
+    src/err_handler.h
+    src/hooks.h
+    src/iterative_exec.h
+    src/datatype_info.h
+    src/multidb.h
+    src/pl_explain.h
+    src/tsql_analyze.h
+    src/pltsql.h
+    src/plerrcodes.h
+    src/schemacmds.h
+    src/pltsql-2.h
+    src/session.h
+    src/collation.h
+    src/pl_funcs-2.h
+    src/babelfish_version.h
+    src/pl_unreserved_kwlist.h
+    src/dynastack.h
+    src/pltsql_bulkcopy.h
+    src/stmt_walker.h
+    src/dbcmds.h
+    src/dynavec.h
+    src/compile_context.h
+    src/catalog.h
+    src/analyzer.h
+    src/tsqlNodes.h
+    src/format.h
+    src/codegen.h
+    src/pltsql_instr.h
+    src/backend_parser/kwlist.h
+    src/backend_parser/scan-tsql-prologue.l.h
+    src/backend_parser/gramparse.h
+    src/backend_parser/scan-tsql-prologue-top.l.h
+    src/backend_parser/scanner.h
+    src/backend_parser/gram-tsql-prologue.y.h
+    src/guc.h
+    src/pl_reserved_kwlist.h
+    src/tsql_for/tsql_for.h
+    src/tsql_win.h )
 
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
+target_include_directories ( ${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}
+    #${CMAKE_CURRENT_LIST_DIR}/../babelfishpg_tsql
+    ${CMAKE_CURRENT_LIST_DIR}/antlr/build/antlr4cpp_generated_src
+    $ENV{PGWIN_INSTALL_DIR}/include/server/port/win32_msvc 
+    $ENV{PGWIN_INSTALL_DIR}/include/server/port/win32
+    $ENV{PGWIN_INSTALL_DIR}/include/server
+    $ENV{PGWIN_INSTALL_DIR}/include
+    $ENV{PGWIN_DEPS_DIR}/int128
+    $ENV{PGWIN_DEPS_DIR}/icu/include
+    $ENV{PGWIN_DEPS_DIR}/openssl/include
+    #$ENV{PGWIN_DEPS_DIR}/xml/include/libxml2
+    $ENV{PGWIN_DEPS_DIR}/antlr4_cpp_runtime/include/antlr4-runtime
+    $ENV{PGWIN_DEPS_DIR}/utf8cpp/include/utf8cpp
+    $ENV{PGWIN_SRC_DIR} )
 
-set ( PG_DIST C:/projects/postgres/dist )
+target_compile_options ( ${PROJECT_NAME} PRIVATE
+    /wd4267
+    /wd4996 )
 
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include/server/port/win32_msvc )
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include/server/port/win32 )
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include/server )
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_DIST}/include )
-
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${PG_SRC} )
-
-target_include_directories ( ${PROJECT_NAME} PRIVATE C:/projects/postgres/antlr4/runtime/Cpp/runtime/src )
-target_include_directories ( ${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/antlr/build/antlr4cpp_generated_src )
-
-target_compile_definitions ( ${PROJECT_NAME} PRIVATE ANTLR4CPP_STATIC )
+target_compile_definitions ( ${PROJECT_NAME} PRIVATE
+    _CRT_SECURE_NO_WARNINGS
+    ANTLR4CPP_STATIC
+    USE_UTF8_INSTEAD_OF_CODECVT
+    BABELFISH_EXTENSION_BUILD )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE
-        ${PG_DIST}/lib/postgres.lib
-        C:/projects/postgres/babelfish_extensions/contrib/babelfishpg_common/build/Debug/babelfishpg_common.lib
-        C:/projects/postgres/babelfish_extensions/contrib/babelfishpg_tsql/antlr/build/Debug/antlr_tsql.lib 
-        C:/projects/postgres/antlr4/runtime/Cpp/dist/Debug/antlr4-runtime-static.lib )
+    ${CMAKE_CURRENT_LIST_DIR}/antlr/build/${CMAKE_BUILD_TYPE}/babelfishpg_tsql_antlr.lib
+    $ENV{PGWIN_INSTALL_DIR}/lib/postgres.lib
+    $ENV{PGWIN_DEPS_DIR}/icu/lib64/icuuc.lib
+    $ENV{PGWIN_DEPS_DIR}/icu/lib64/icuin.lib
+    #$ENV{PGWIN_DEPS_DIR}/xml/lib/libxml2.lib
+    $ENV{PGWIN_DEPS_DIR}/openssl/lib/libssl.lib
+    $ENV{PGWIN_DEPS_DIR}/openssl/lib/libcrypto.lib
+    $ENV{PGWIN_DEPS_DIR}/antlr4_cpp_runtime/lib/antlr4-runtime-static.lib
+    shlwapi
+    ws2_32 )
+
+#target_compile_definitions ( ${PROJECT_NAME} PRIVATE ANTLR4CPP_STATIC BABEL_TMP )

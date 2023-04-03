@@ -52,9 +52,9 @@
 	 (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric)
 
 #define TSQLInstrumentation(metric)												\
-({	if ((pltsql_instr_plugin_ptr && (*pltsql_instr_plugin_ptr) && (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric))		\
+		if ((pltsql_instr_plugin_ptr && (*pltsql_instr_plugin_ptr) && (*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric))	{	\
 		(*pltsql_instr_plugin_ptr)->pltsql_instr_increment_metric(metric);		\
-})
+}
 
 #define TSQL_TXN_NAME_LIMIT 64	/* Transaction name limit */
 
@@ -1730,9 +1730,11 @@ typedef struct tsql_identity_insert_fields
 } tsql_identity_insert_fields;
 
 extern tsql_identity_insert_fields tsql_identity_insert;
-//extern check_lang_as_clause_hook_type check_lang_as_clause_hook;
-//extern write_stored_proc_probin_hook_type write_stored_proc_probin_hook;
-//extern make_fn_arguments_from_stored_proc_probin_hook_type make_fn_arguments_from_stored_proc_probin_hook;
+#ifndef _MSC_VER
+extern check_lang_as_clause_hook_type check_lang_as_clause_hook;
+extern write_stored_proc_probin_hook_type write_stored_proc_probin_hook;
+extern make_fn_arguments_from_stored_proc_probin_hook_type make_fn_arguments_from_stored_proc_probin_hook;
+#endif // !_MSC_VER
 
 extern plansource_complete_hook_type prev_plansource_complete_hook;
 extern plansource_revalidate_hook_type prev_plansource_revalidate_hook;
