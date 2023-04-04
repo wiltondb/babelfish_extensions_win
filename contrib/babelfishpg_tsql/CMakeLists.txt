@@ -16,6 +16,12 @@ cmake_minimum_required ( VERSION 3.19 )
 
 project ( babelfishpg_tsql C CXX )
 
+set ( PGTSQL_MAJOR_VERSION 3 )
+set ( PGTSQL_MINOR_VERSION 2 )
+set ( PGTSQL_MICRO_VERSION 0 )
+set ( EXTVERSION ${PGTSQL_MAJOR_VERSION}.${PGTSQL_MINOR_VERSION}.${PGTSQL_MICRO_VERSION} )
+set ( MODULEPATH $libdir/${PROJECT_NAME}-${PGTSQL_MAJOR_VERSION} )
+
 if ( CMAKE_BUILD_TYPE MATCHES "" )
     set ( CMAKE_BUILD_TYPE Debug )
 endif ( )
@@ -198,7 +204,9 @@ add_library ( ${PROJECT_NAME} SHARED
     src/guc.h
     src/pl_reserved_kwlist.h
     src/tsql_for/tsql_for.h
-    src/tsql_win.h )
+    src/tsql_win.h
+
+    ${PROJECT_NAME}.def )
 
 target_include_directories ( ${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
@@ -224,6 +232,7 @@ target_compile_definitions ( ${PROJECT_NAME} PRIVATE
     _CRT_SECURE_NO_WARNINGS
     ANTLR4CPP_STATIC
     USE_UTF8_INSTEAD_OF_CODECVT
+    FAULT_INJECTOR
     BABELFISH_EXTENSION_BUILD )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE
@@ -238,4 +247,71 @@ target_link_libraries ( ${PROJECT_NAME} PRIVATE
     shlwapi
     ws2_32 )
 
-#target_compile_definitions ( ${PROJECT_NAME} PRIVATE ANTLR4CPP_STATIC BABEL_TMP )
+configure_file ( ${PROJECT_NAME}.control.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.control 
+    @ONLY 
+    NEWLINE_STYLE LF )
+
+file ( READ sql/${PROJECT_NAME}.prologue.sql PROLOGUE_SQL )
+file ( READ sql/collation.sql COLLATION_SQL )
+file ( READ sql/datatype.sql DATATYPE_SQL )
+file ( READ sql/datatype_string_operators.sql DATATYPE_STRING_OPERATORS_SQL )
+file ( READ sql/sys.sql SYS_SQL )
+file ( READ sql/sys_languages.sql SYS_LANGUAGES_SQL )
+file ( READ sql/sys_babelfish_configurations.sql SYS_BABELFISH_CONFIGURATION_SQL )
+file ( READ sql/sys_function_helpers.sql SYS_FUNCTION_HELPERS_SQL )
+file ( READ sql/sys_functions.sql SYS_FUNCTIONS_SQL )
+file ( READ sql/sys_cast.sql SYS_CAST_SQL )
+file ( READ sql/coerce.sql COERCE_SQL )
+file ( READ sql/object_definition_tsql.sql OBJECT_DEFINITION_TSQL_SQL )
+file ( READ sql/ownership.sql OWNERSHIP_SQL )
+file ( READ sql/sys_views.sql SYS_VIEWS_SQL )
+file ( READ sql/information_schema_tsql.sql INFORMATION_SCHEMA_TSQL_SQL )
+file ( READ sql/sys_procedures.sql SYS_PROCEDURES_SQL )
+file ( READ sql/import_export_compatibility.sql IMPORT_EXPORT_COMPATIBILITY_SQL )
+file ( READ sql/babelfishpg_tsql.sql BABELFISHPG_TSQL_SQL )
+file ( READ sql/${PROJECT_NAME}.epilogue.sql EPILOGUE_SQL )
+string ( CONCAT ${PROJECT_NAME}_SQL
+    "${PROLOGUE_SQL}"
+    "${COLLATION_SQL}"
+    "${DATATYPE_SQL}"
+    "${DATATYPE_STRING_OPERATORS_SQL}"
+    "${SYS_SQL}"
+    "${SYS_LANGUAGES_SQL}"
+    "${SYS_BABELFISH_CONFIGURATION_SQL}"
+    "${SYS_FUNCTION_HELPERS_SQL}"
+    "${SYS_FUNCTIONS_SQL}"
+    "${COERCE_SQL}"
+    "${OBJECT_DEFINITION_TSQL_SQL}"
+    "${OWNERSHIP_SQL}"
+    "${SYS_VIEWS_SQL}"
+    "${INFORMATION_SCHEMA_TSQL_SQL}"
+    "${SYS_PROCEDURES_SQL}"
+    "${IMPORT_EXPORT_COMPATIBILITY_SQL}"
+    "${BABELFISHPG_TSQL_SQL}"
+    "${EPILOGUE_SQL}" )
+file ( GENERATE
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}--${EXTVERSION}.sql
+    CONTENT "${${PROJECT_NAME}_SQL}"
+    NEWLINE_STYLE LF )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION $ENV{PGWIN_INSTALL_DIR}/lib )
+
+install ( FILES
+    sql/upgrades/${PROJECT_NAME}--1.0.0--1.1.0.sql
+    sql/upgrades/${PROJECT_NAME}--1.1.0--1.2.0.sql
+    sql/upgrades/${PROJECT_NAME}--1.2.0--1.2.1.sql
+    sql/upgrades/${PROJECT_NAME}--1.2.1--2.0.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.0.0--2.1.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.1.0--2.2.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.2.0--2.3.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.3.0--2.4.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.3.0--3.0.0.sql
+    sql/upgrades/${PROJECT_NAME}--2.4.0--3.0.0.sql
+    sql/upgrades/${PROJECT_NAME}--3.0.0--3.1.0.sql
+    sql/upgrades/${PROJECT_NAME}--3.1.0--3.2.0.sql
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}--${EXTVERSION}.sql
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.control
+    DESTINATION $ENV{PGWIN_INSTALL_DIR}/share/extension )
+

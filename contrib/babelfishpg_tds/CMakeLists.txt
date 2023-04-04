@@ -74,7 +74,9 @@ add_library ( ${PROJECT_NAME} SHARED
     src/include/tds_timestamp.h
     src/include/tds_typecode.h
     src/include/tds_typeio.h
-    src/include/tds_win.h )
+    src/include/tds_win.h
+
+    ${PROJECT_NAME}.def )
 
 target_include_directories ( ${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
@@ -96,7 +98,8 @@ target_compile_options ( ${PROJECT_NAME} PRIVATE
 
 target_compile_definitions ( ${PROJECT_NAME} PRIVATE
     _CRT_SECURE_NO_WARNINGS
-    USE_LIBXML )
+    USE_LIBXML
+    FAULT_INJECTOR )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE
     $ENV{PGWIN_INSTALL_DIR}/lib/postgres.lib
