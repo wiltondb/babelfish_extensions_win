@@ -50,3 +50,6 @@ target_compile_options ( ${PROJECT_NAME} PRIVATE
 target_compile_definitions ( ${PROJECT_NAME} PRIVATE
     ANTLR4CPP_STATIC
     USE_UTF8_INSTEAD_OF_CODECVT )
+
+install ( TARGETS ${PROJECT_NAME}
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/dist )

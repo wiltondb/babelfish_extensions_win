@@ -17,5 +17,5 @@ use warnings;
 use File::Slurp qw(edit_file);
 
 # https://stackoverflow.com/a/12040593
-edit_file(sub { s/("'\\u200B'"|"'\\u202F'"|"'\\u3000'")/u8$1/g }, "TSqlLexer/TSqlLexer.cpp");
-edit_file(sub { s/("'\\u200B'"|"'\\u202F'"|"'\\u3000'")/u8$1/g }, "TSqlParser/TSqlParser.cpp");
+edit_file(sub { s/[^8]("'\\u200B'"|"'\\u202F'"|"'\\u3000'")/u8$1/g }, "TSqlLexer/TSqlLexer.cpp");
+edit_file(sub { s/[^8]("'\\u200B'"|"'\\u202F'"|"'\\u3000'")/u8$1/g }, "TSqlParser/TSqlParser.cpp");

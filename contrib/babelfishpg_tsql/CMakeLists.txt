@@ -22,10 +22,6 @@ set ( PGTSQL_MICRO_VERSION 0 )
 set ( EXTVERSION ${PGTSQL_MAJOR_VERSION}.${PGTSQL_MINOR_VERSION}.${PGTSQL_MICRO_VERSION} )
 set ( MODULEPATH $libdir/${PROJECT_NAME}-${PGTSQL_MAJOR_VERSION} )
 
-if ( CMAKE_BUILD_TYPE MATCHES "" )
-    set ( CMAKE_BUILD_TYPE Debug )
-endif ( )
-
 if ( NOT DEFINED ENV{PGWIN_DEPS_DIR} )
     message( FATAL_ERROR "Environment variable 'PGWIN_DEPS_DIR' (pointing to the pgwin_deps installation directory) must be specified" )
 endif ()
@@ -236,7 +232,7 @@ target_compile_definitions ( ${PROJECT_NAME} PRIVATE
     BABELFISH_EXTENSION_BUILD )
 
 target_link_libraries ( ${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/antlr/build/${CMAKE_BUILD_TYPE}/babelfishpg_tsql_antlr.lib
+    ${CMAKE_CURRENT_LIST_DIR}/antlr/build/dist/babelfishpg_tsql_antlr.lib
     $ENV{PGWIN_INSTALL_DIR}/lib/postgres.lib
     $ENV{PGWIN_DEPS_DIR}/icu/lib64/icuuc.lib
     $ENV{PGWIN_DEPS_DIR}/icu/lib64/icuin.lib
