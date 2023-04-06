@@ -42,6 +42,7 @@ extern Oid	sysdatabaese_idx_name_oid;
 #define Anum_sysdatabaese_crdate 7
 
 /* MUST comply with babelfish_sysdatabases table */
+#ifndef _MSC_VER
 typedef struct FormData_sysdatabases
 {
 	int16		dbid;
@@ -49,14 +50,28 @@ typedef struct FormData_sysdatabases
 	int32		status2;
 	NameData	owner;
 	NameData	default_collation;
-	text*		name;
+	text		name;
 	TimestampTz crdate;
-	text*		properties;
+	text		properties;
 } FormData_sysdatabases;
 
 typedef FormData_sysdatabases *Form_sysdatabases;
+#else // _MSC_VER
+static size_t Form_sysdatabases_dbid_offset = 0;
+static size_t Form_sysdatabases_owner_offset =
+	sizeof(int16) + // dbid
+	sizeof(int32) + // status
+	sizeof(int32);  // status2
+static size_t Form_sysdatabases_name_offset =
+	sizeof(int16) +    // dbid
+	sizeof(int32) +    // status
+	sizeof(int32) +    // status2
+	sizeof(NameData) + // owner
+	sizeof(NameData);  // default_collation
+#endif // !_MSC_VER
 
 /* MUST comply with babelfish_authid_login_ext table */
+#ifndef _MSC_VER
 typedef struct FormData_authid_login_ext
 {
 	NameData	rolname;
@@ -67,13 +82,25 @@ typedef struct FormData_authid_login_ext
 	int32		is_fixed_role;
 	TimestampTz create_date;
 	TimestampTz modify_date;
-	VarChar*		default_database_name;
-	VarChar*		default_language_name;
-	Jsonb*		properties;
-	VarChar*		orig_loginname;
+	VarChar		default_database_name;
+	VarChar		default_language_name;
+	Jsonb		properties;
+	VarChar		orig_loginname;
 } FormData_authid_login_ext;
 
 typedef FormData_authid_login_ext *Form_authid_login_ext;
+#else // _MSC_VER
+static size_t Form_authid_login_ext_rolname_offset = 0;
+static size_t Form_authid_login_ext_default_database_name_offset =
+	sizeof(NameData) + 		// rolname
+	sizeof(int32) + 			// is_disabled
+	sizeof(char) +				// type
+	sizeof(int32) +				// credential_id
+	sizeof(int32) + 			// owning_principal_id
+	sizeof(int32) + 			// is_fixed_role
+	sizeof(TimestampTz) +	// create_date 
+	sizeof(TimestampTz);	// modify_date 
+#endif // !_MSC_VER
 
 #define InvalidDbid 0
 #define DbidIsValid(id)  ((bool) ((id) != InvalidDbid))
@@ -147,11 +174,12 @@ extern void alter_user_can_connect(bool is_grant, char *user_name, char *db_name
 extern bool guest_role_exists_for_db(const char *dbname);
 
 /* MUST comply with babelfish_authid_user_ext table */
+#ifndef _MSC_VER
 typedef struct FormData_authid_user_ext
 {
 	NameData	rolname;
 	NameData	login_name;
-	BpChar*		type;
+	BpChar		type;
 	int32		owning_principal_id;
 	int32		is_fixed_role;
 	int32		authentication_type;
@@ -159,15 +187,21 @@ typedef struct FormData_authid_user_ext
 	int32		allow_encrypted_value_modifications;
 	TimestampTz create_date;
 	TimestampTz modify_date;
-	VarChar*		orig_username;
-	VarChar*		database_name;
-	VarChar*		default_schema_name;
-	VarChar*		default_language_name;
-	VarChar*		authentication_type_desc;
+	VarChar		orig_username;
+	VarChar		database_name;
+	VarChar		default_schema_name;
+	VarChar		default_language_name;
+	VarChar		authentication_type_desc;
 	int32		user_can_connect;
 } FormData_authid_user_ext;
 
 typedef FormData_authid_user_ext *Form_authid_user_ext;
+#else // _MSC_VER
+static size_t Form_authid_user_ext_rolname_offset = 0;
+static size_t Form_authid_user_ext_type_offset = 
+	sizeof(NameData) + // rolname
+	sizeof(NameData);  // login_name
+#endif // !_MSC_VER
 
 /*****************************************
  *			VIEW_DEF
@@ -192,12 +226,13 @@ extern HeapTuple search_bbf_view_def(Relation bbf_view_def_rel, int16 dbid,
 extern bool check_is_tsql_view(Oid relid);
 extern void clean_up_bbf_view_def(int16 dbid);
 
+#ifndef _MSC_VER
 typedef struct FormData_bbf_view_def
 {
 	int16		dbid;
-	VarChar*		schema;
-	VarChar*		object_name;
-	text*		definition;
+	VarChar		schema;
+	VarChar		object_name;
+	text		definition;
 	uint64		flag_validity;
 	uint64		flag_values;
 	Timestamp	create_date;
@@ -205,6 +240,8 @@ typedef struct FormData_bbf_view_def
 }			FormData_bbf_view_def;
 
 typedef FormData_bbf_view_def * Form_bbf_view_def;
+#else // _MSC_VER
+#endif // !_MSC_VER
 
 /*****************************************
  *			FUNCTION_EXT
@@ -232,21 +269,27 @@ extern Oid	get_bbf_function_ext_idx_oid(void);
 extern HeapTuple get_bbf_function_tuple_from_proctuple(HeapTuple proctuple);
 extern void clean_up_bbf_function_ext(int16 dbid);
 
+#ifndef _MSC_VER
 typedef struct FormData_bbf_function_ext
 {
 	NameData	schema;
 	NameData	funcname;
-	VarChar*		orig_name;
-	text*		function_signature;
-	text*		default_positions;
+	VarChar		orig_name;
+	text		function_signature;
+	text		default_positions;
 	uint64		flag_validity;
 	uint64		flag_values;
 	Timestamp	create_date;
 	Timestamp	modify_date;
-	text*		definition;
+	text		definition;
 } FormData_bbf_function_ext;
 
 typedef FormData_bbf_function_ext *Form_bbf_function_ext;
+#else // _MSC_VER
+static size_t Form_bbf_function_ext_schema_offset = 0;
+static size_t Form_bbf_function_ext_funcname_offset =
+	sizeof(NameData); // schema
+#endif // !_MSC_VER
 
 /*****************************************
  *			DOMAIN MAPPING

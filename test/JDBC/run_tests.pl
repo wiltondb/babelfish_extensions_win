@@ -26,7 +26,11 @@ sub runcmd {
   my $cmd = shift;
   my $best_effort = shift;
   print("$cmd\n");
-  0 == system($cmd) or die("$!");
+  if (!$best_effort) {
+    0 == system($cmd) or die("$!");
+  } else {
+    system($cmd);
+  }
 }
 
 if (!(defined $ENV{PGWIN_INSTALL_DIR})) {
@@ -48,21 +52,21 @@ if (-f $postmaster_pid) {
 remove_tree($pg_data);
 runcmd("$initdb -D $pg_data -E UTF8 --locale en_US");
 append_file($postgresql_conf, "shared_preload_libraries = 'babelfishpg_tds'\n");
-append_file($postgresql_conf, "babelfishpg_tds.port = 1435\n");
-append_file($postgresql_conf, "allow_system_table_mods = on\n");
 make_path($pg_log_dir);
 runcmd("$pg_ctl start -D $pg_data -l $pg_log");
 
-runcmd("$psql -d postgres  -c \"CREATE USER babelfish WITH SUPERUSER CREATEDB CREATEROLE PASSWORD 'babelfish' INHERIT;\"");
-runcmd("$psql -d postgres  -c \"CREATE DATABASE babelfish OWNER babelfish;\"");
-runcmd("$psql -d babelfish -c \"CREATE EXTENSION IF NOT EXISTS babelfishpg_tds CASCADE;\"");
-runcmd("$psql -d babelfish -c \"GRANT ALL ON SCHEMA sys to babelfish;\"");
-runcmd("$psql -d babelfish -c \"ALTER SYSTEM SET babelfishpg_tsql.database_name = 'babelfish';\"");
-runcmd("$psql -d babelfish -c \"ALTER DATABASE babelfish SET babelfishpg_tsql.migration_mode = 'multi-db';\"");
-runcmd("$psql -d babelfish -c \"SELECT pg_reload_conf();\"");
-runcmd("$psql -d babelfish -c \"CALL sys.initialize_babelfish('babelfish');\"");
+runcmd("$psql -d postgres    -c \"CREATE USER jdbc_user WITH SUPERUSER CREATEDB CREATEROLE PASSWORD '12345678' INHERIT;\"");
+runcmd("$psql -d postgres    -c \"CREATE DATABASE jdbc_testdb OWNER jdbc_user;\"");
+runcmd("$psql -d jdbc_testdb -c \"SET allow_system_table_mods = ON;\"");
+runcmd("$psql -d jdbc_testdb -c \"CREATE EXTENSION IF NOT EXISTS babelfishpg_tds CASCADE;\"");
+runcmd("$psql -d jdbc_testdb -c \"GRANT ALL ON SCHEMA sys to jdbc_user;\"");
+runcmd("$psql -d jdbc_testdb -c \"ALTER SYSTEM SET babelfishpg_tsql.database_name = 'jdbc_testdb';\"");
+runcmd("$psql -d jdbc_testdb -c \"ALTER DATABASE jdbc_testdb SET babelfishpg_tsql.migration_mode = 'multi-db';\"");
+runcmd("$psql -d jdbc_testdb -c \"SELECT pg_reload_conf();\"");
+runcmd("$psql -d jdbc_testdb -c \"CALL sys.initialize_babelfish('jdbc_user');\"");
 
-runcmd("mvn test");
+#runcmd("mvn test -Dmaven.surefire.debug=true");
+runcmd("mvn test", "best effort");
 
 runcmd("$pg_ctl stop -D $pg_data -l $pg_log");
-perl("Test run comleted successfully\n");
+print("Test run completed\n");

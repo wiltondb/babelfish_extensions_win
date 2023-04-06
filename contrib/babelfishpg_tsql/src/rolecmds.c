@@ -917,9 +917,10 @@ drop_all_logins(PG_FUNCTION_ARGS)
 	/* Get all the login names beforehand. */
 	while (HeapTupleIsValid(tuple = systable_getnext(scan)))
 	{
-		Form_authid_login_ext loginform = (Form_authid_login_ext) GETSTRUCT(tuple);
+		char* tuple_data_ptr = GETSTRUCT(tuple);
+		NameData* loginform_rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_login_ext_rolname_offset);
 
-		rolname = NameStr(loginform->rolname);
+		rolname = NameStr(*loginform_rolname_ptr);
 
 		/*
 		 * Remove SA from authid_login_ext now but do not add it to the list
