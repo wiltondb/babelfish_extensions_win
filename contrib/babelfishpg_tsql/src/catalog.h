@@ -59,11 +59,11 @@ typedef FormData_sysdatabases *Form_sysdatabases;
 #else // _MSC_VER
 static size_t Form_sysdatabases_dbid_offset = 0;
 static size_t Form_sysdatabases_owner_offset =
-	sizeof(int16) + // dbid
+	sizeof(int32) + // dbid
 	sizeof(int32) + // status
 	sizeof(int32);  // status2
 static size_t Form_sysdatabases_name_offset =
-	sizeof(int16) +    // dbid
+	sizeof(int32) +    // dbid
 	sizeof(int32) +    // status
 	sizeof(int32) +    // status2
 	sizeof(NameData) + // owner
@@ -94,7 +94,7 @@ static size_t Form_authid_login_ext_rolname_offset = 0;
 static size_t Form_authid_login_ext_default_database_name_offset =
 	sizeof(NameData) + 		// rolname
 	sizeof(int32) + 			// is_disabled
-	sizeof(char) +				// type
+	sizeof(int64) +				// type
 	sizeof(int32) +				// credential_id
 	sizeof(int32) + 			// owning_principal_id
 	sizeof(int32) + 			// is_fixed_role
