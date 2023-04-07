@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
+#define fstat microsoft_native_fstat
+#define stat microsoft_native_stat
+
+#include <regex>
+
 extern "C" {
   #include "src/tsql_win.h"
 }
 
 int regexec_win(const char *regex, const char *string, size_t nmatch,
             regmatch_t pmatch[], int eflags) {
-  return 1;
+  auto rx = std::regex(regex);
+  auto cm = std::cmatch();
+  std::regex_search(string, cm, rx);
+  if (cm.empty()) {
+    return 1;
+  }
+  pmatch[0].rm_so = cm[0].first - string;
+  pmatch[0].rm_eo = cm[0].second - string;
+
+  return 0;
 }
