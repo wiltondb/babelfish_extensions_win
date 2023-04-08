@@ -697,6 +697,7 @@ host_os(PG_FUNCTION_ARGS)
 				host_str[256];
 	void	   *info;
 
+#ifndef _MSC_VER
 	/* filter out host info */
 	pg_version = pstrdup(PG_VERSION_STR);
 	sscanf(pg_version, "PostgreSQL %*s on %s, compiled by %*s", host_str);
@@ -715,6 +716,10 @@ host_os(PG_FUNCTION_ARGS)
 	}
 	else
 		host_os_res = pstrdup("UNKNOWN");
+#else // _MSC_VER
+		host_os_res = pstrdup("Windows");
+		pg_version = NULL;
+#endif // !_MSC_VER
 
 	info = (*common_utility_plugin_ptr->tsql_varchar_input) (host_os_res, strlen(host_os_res), -1);
 	if (pg_version)
