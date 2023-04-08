@@ -2196,7 +2196,7 @@ GetTypModForToken(ParameterToken token)
 			/* it only consists of the maxlen */
 			datums = (Datum *) palloc(1 * sizeof(Datum));
 
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type2.maxSize);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type2.maxSize);
 			datums[n++] = CStringGetDatum(cstr);
 			break;
 		case TDS_TYPE_NCHAR:
@@ -2208,7 +2208,7 @@ GetTypModForToken(ParameterToken token)
 			/* it only consists of the maxlen */
 			datums = (Datum *) palloc(1 * sizeof(Datum));
 
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type2.maxSize / 2);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type2.maxSize / 2);
 			datums[n++] = CStringGetDatum(cstr);
 			break;
 		case TDS_TYPE_DECIMALN:
@@ -2216,9 +2216,9 @@ GetTypModForToken(ParameterToken token)
 			/* it consists of scale and precision */
 			datums = (Datum *) palloc(2 * sizeof(Datum));
 
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type5.precision);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type5.precision);
 			datums[n++] = CStringGetDatum(cstr);
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type5.scale);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type5.scale);
 			datums[n++] = CStringGetDatum(cstr);
 			break;
 		case TDS_TYPE_TIME:
@@ -2226,7 +2226,7 @@ GetTypModForToken(ParameterToken token)
 			/* it only consists of scale */
 			datums = (Datum *) palloc(1 * sizeof(Datum));
 
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type6.scale);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type6.scale);
 			datums[n++] = CStringGetDatum(cstr);
 			break;
 		case TDS_TYPE_BINARY:
@@ -2237,7 +2237,7 @@ GetTypModForToken(ParameterToken token)
 
 			/* it only consists of the maxlen */
 			datums = (Datum *) palloc(1 * sizeof(Datum));
-			cstr = psprintf("%ld", (long) token->paramMeta.metaEntry.type7.maxSize);
+			cstr = psprintf("%lld", (int64_t) token->paramMeta.metaEntry.type7.maxSize);
 			datums[n++] = CStringGetDatum(cstr);
 			break;
 		case TDS_TYPE_IMAGE:
