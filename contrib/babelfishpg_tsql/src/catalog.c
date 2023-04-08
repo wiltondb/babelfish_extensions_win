@@ -212,15 +212,15 @@ get_db_id(const char *dbname)
 {
 	int16		db_id = 0;
 	HeapTuple	tuple;
+	Form_sysdatabases sysdb;
 
 	tuple = SearchSysCache1(SYSDATABASENAME, CStringGetTextDatum(dbname));
 
 	if (!HeapTupleIsValid(tuple))
 		return InvalidDbid;
 
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	int16* dbid_ptr = (int16*) (tuple_data_ptr + Form_sysdatabases_dbid_offset);
-	db_id = *dbid_ptr;
+	sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
+	db_id = sysdb->dbid;
 	ReleaseSysCache(tuple);
 
 	return db_id;
@@ -302,6 +302,7 @@ babelfish_helpdb(PG_FUNCTION_ARGS)
 	Relation	rel;
 	SysScanDesc scan;
 	HeapTuple	tuple;
+	Form_sysdatabases sysdb;
 	Oid			datetime_output_func;
 	bool		typIsVarlena;
 	Oid			datetime_type;
@@ -395,9 +396,7 @@ babelfish_helpdb(PG_FUNCTION_ARGS)
 		char	   *tmstmp_str;
 		bool		isNull;
 
-		char* tuple_data_ptr = GETSTRUCT(tuple);
-		NameData* sysdb_owner_ptr = (NameData*) (tuple_data_ptr + Form_sysdatabases_owner_offset);
-		int16* sysdb_dbid_ptr = (int16*) (tuple_data_ptr + Form_sysdatabases_dbid_offset);
+		sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
 
 		MemSet(nulls, 0, sizeof(nulls));
 
@@ -408,7 +407,7 @@ babelfish_helpdb(PG_FUNCTION_ARGS)
 
 		nulls[1] = 1;
 
-		values[2] = CStringGetTextDatum(NameStr(*sysdb_owner_ptr));
+		values[2] = CStringGetTextDatum(NameStr(sysdb->owner));
 
 		if (strlen(db_name_entry) == 6 && (strncmp(db_name_entry, "master", 6) == 0))
 			values[3] = 1;
@@ -417,7 +416,7 @@ babelfish_helpdb(PG_FUNCTION_ARGS)
 		else if (strlen(db_name_entry) == 4 && (strncmp(db_name_entry, "msdb", 4) == 0))
 			values[3] = 4;
 		else
-			values[3] = *sysdb_dbid_ptr;
+			values[3] = sysdb->dbid;
 
 		tmstmp = DatumGetTimestamp(heap_getattr(tuple, Anum_sysdatabaese_crdate,
 												RelationGetDescr(rel), &isNull));
@@ -775,6 +774,7 @@ is_role(Oid role_oid)
 	HeapTuple	tuple;
 	HeapTuple	authtuple;
 	NameData	rolname;
+	BpChar		type;
 	char	   *type_str = "";
 
 	authtuple = SearchSysCache1(AUTHOID, ObjectIdGetDatum(role_oid));
@@ -801,9 +801,8 @@ is_role(Oid role_oid)
 		is_role = false;
 	else
 	{
-		char* tuple_data_ptr = GETSTRUCT(tuple);
-		BpChar* type_ptr = (BpChar*)(tuple_data_ptr + Form_authid_user_ext_type_offset);
-		type_str = bpchar_to_cstring(type_ptr);
+		type = ((Form_authid_user_ext) GETSTRUCT(tuple))->type;
+		type_str = bpchar_to_cstring(&type);
 
 		if (strcmp(type_str, "R") != 0)
 			is_role = false;
@@ -873,9 +872,10 @@ get_authid_user_ext_physical_name(const char *db_name, const char *login)
 	tuple_user_ext = heap_getnext(scan, ForwardScanDirection);
 	if (HeapTupleIsValid(tuple_user_ext))
 	{
-		char* tuple_data_ptr = GETSTRUCT(tuple_user_ext);
-		NameData* rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_user_ext_rolname_offset);
-		user_name = pstrdup(NameStr(*rolname_ptr));
+		Form_authid_user_ext userform;
+
+		userform = (Form_authid_user_ext) GETSTRUCT(tuple_user_ext);
+		user_name = pstrdup(NameStr(userform->rolname));
 	}
 
 	table_endscan(scan);
@@ -958,10 +958,10 @@ get_authid_user_ext_db_users(const char *db_name)
 	while (HeapTupleIsValid(tuple))
 	{
 		char	   *user_name;
+		Form_authid_user_ext userform;
 
-		char* tuple_data_ptr = GETSTRUCT(tuple);
-		NameData* rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_user_ext_rolname_offset);
-		user_name = pstrdup(NameStr(*rolname_ptr));
+		userform = (Form_authid_user_ext) GETSTRUCT(tuple);
+		user_name = pstrdup(NameStr(userform->rolname));
 		db_users_list = lappend(db_users_list, user_name);
 		tuple = heap_getnext(scan, ForwardScanDirection);
 	}
@@ -1810,19 +1810,16 @@ get_msdb_db_owner(HeapTuple tuple, TupleDesc dsc)
 static Datum
 get_owner(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* sysdb_owner_ptr = (NameData*) (tuple_data_ptr + Form_sysdatabases_owner_offset);
+	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
 
-	return NameGetDatum(sysdb_owner_ptr);
+	return NameGetDatum(&(sysdb->owner));
 }
 
 static Datum
 get_name_db_owner(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	const text* sysdb_name_ptr = (const text*) (tuple_data_ptr + Form_sysdatabases_name_offset);
-
-	const text *name = sysdb_name_ptr;
+	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
+	const text *name = &(sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_db_owner = palloc0(MAX_BBF_NAMEDATALEND);
 
@@ -1835,10 +1832,8 @@ get_name_db_owner(HeapTuple tuple, TupleDesc dsc)
 static Datum
 get_name_dbo(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	const text* sysdb_name_ptr = (const text*) (tuple_data_ptr + Form_sysdatabases_name_offset);
-
-	const text *name = sysdb_name_ptr;
+	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
+	const text *name = &(sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_dbo = palloc0(MAX_BBF_NAMEDATALEND);
 
@@ -1851,10 +1846,8 @@ get_name_dbo(HeapTuple tuple, TupleDesc dsc)
 static Datum
 get_name_guest(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	const text* sysdb_name_ptr = (const text*) (tuple_data_ptr + Form_sysdatabases_name_offset);
-
-	const text *name = sysdb_name_ptr;
+	Form_sysdatabases sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
+	const text *name = &(sysdb->name);
 	char	   *name_str = text_to_cstring(name);
 	char	   *name_dbo = palloc0(MAX_BBF_NAMEDATALEND);
 
@@ -1876,28 +1869,25 @@ get_nspname(HeapTuple tuple, TupleDesc dsc)
 static Datum
 get_login_rolname(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_login_ext_rolname_offset);
+	Form_authid_login_ext authid = ((Form_authid_login_ext) GETSTRUCT(tuple));
 
-	return NameGetDatum(rolname_ptr);
+	return NameGetDatum(&(authid->rolname));
 }
 
 static Datum
 get_default_database_name(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	VarChar* default_database_name = (VarChar*) (tuple_data_ptr + Form_authid_login_ext_default_database_name_offset);
+	Form_authid_login_ext authid = ((Form_authid_login_ext) GETSTRUCT(tuple));
 
-	return PointerGetDatum(default_database_name);
+	return PointerGetDatum(&(authid->default_database_name));
 }
 
 static Datum
 get_user_rolname(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_user_ext_rolname_offset);
+	Form_authid_user_ext authid = ((Form_authid_user_ext) GETSTRUCT(tuple));
 
-	return NameGetDatum(rolname_ptr);
+	return NameGetDatum(&(authid->rolname));
 }
 
 static Datum
@@ -1912,19 +1902,17 @@ get_database_name(HeapTuple tuple, TupleDesc dsc)
 static Datum
 get_function_nspname(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* schema_ptr = (NameData*) (tuple_data_ptr + Form_bbf_function_ext_schema_offset);
+	Form_bbf_function_ext func = ((Form_bbf_function_ext) GETSTRUCT(tuple));
 
-	return NameGetDatum(schema_ptr);
+	return NameGetDatum(&(func->schema));
 }
 
 static Datum
 get_function_name(HeapTuple tuple, TupleDesc dsc)
 {
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* funcname_ptr = (NameData*) (tuple_data_ptr + Form_bbf_function_ext_funcname_offset);
+	Form_bbf_function_ext func = ((Form_bbf_function_ext) GETSTRUCT(tuple));
 
-	return NameGetDatum(funcname_ptr);
+	return NameGetDatum(&(func->funcname));
 }
 
 /*****************************************
@@ -2403,10 +2391,9 @@ get_db_owner_role_name(const char *dbname)
 	tuple_user_ext = heap_getnext(scan, ForwardScanDirection);
 	if (HeapTupleIsValid(tuple_user_ext))
 	{
-		char* tuple_data_ptr = GETSTRUCT(tuple_user_ext);
-		NameData* rolname_ptr = (NameData*) (tuple_data_ptr + Form_authid_user_ext_rolname_offset);
+		Form_authid_user_ext userform = (Form_authid_user_ext) GETSTRUCT(tuple_user_ext);
 
-		db_owner_role = pstrdup(NameStr(*rolname_ptr));
+		db_owner_role = pstrdup(NameStr(userform->rolname));
 	}
 
 	table_endscan(scan);

@@ -582,6 +582,7 @@ drop_bbf_db(const char *dbname, bool missing_ok, bool force_drop)
 {
 	volatile Relation sysdatabase_rel;
 	HeapTuple	tuple;
+	Form_sysdatabases bbf_db;
 	int16		dbid;
 	const char *schema_name;
 	const char *db_owner_role;
@@ -626,9 +627,8 @@ drop_bbf_db(const char *dbname, bool missing_ok, bool force_drop)
 		}
 	}
 
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	int16* bbf_db_dbid_ptr = (int16*) (tuple_data_ptr + Form_sysdatabases_dbid_offset);
-	dbid = *bbf_db_dbid_ptr;
+	bbf_db = ((Form_sysdatabases) GETSTRUCT(tuple));
+	dbid = bbf_db->dbid;
 
 	/* Check if the database is in use */
 	if (dbid == get_cur_db_id())
@@ -960,6 +960,7 @@ get_owner_of_db(const char *dbname)
 {
 	char	   *owner = NULL;
 	HeapTuple	tuple;
+	Form_sysdatabases sysdb;
 
 	tuple = SearchSysCache1(SYSDATABASENAME, CStringGetTextDatum(dbname));
 
@@ -968,9 +969,8 @@ get_owner_of_db(const char *dbname)
 				(errcode(ERRCODE_UNDEFINED_DATABASE),
 				 errmsg("database \"%s\" does not exist", dbname)));
 
-	char* tuple_data_ptr = GETSTRUCT(tuple);
-	NameData* owner_ptr = (NameData*) (tuple_data_ptr + Form_sysdatabases_owner_offset);
-	owner = NameStr(*owner_ptr);
+	sysdb = ((Form_sysdatabases) GETSTRUCT(tuple));
+	owner = NameStr(sysdb->owner);
 	ReleaseSysCache(tuple);
 
 	return owner;
@@ -1091,6 +1091,7 @@ create_guest_schema_for_all_dbs(PG_FUNCTION_ARGS)
 	HeapTuple	tuple;
 	const char *sql_dialect_value_old;
 	const char *tsql_dialect = "tsql";
+	Form_sysdatabases bbf_db;
 	const char *dbname;
 	bool		creating_extension_backup = creating_extension;
 
@@ -1116,12 +1117,10 @@ create_guest_schema_for_all_dbs(PG_FUNCTION_ARGS)
 
 		while (HeapTupleIsValid(tuple))
 		{
-			char* tuple_data_ptr = GETSTRUCT(tuple);
-			int16* bbf_db_dbid_ptr = (int16*) (tuple_data_ptr + Form_sysdatabases_dbid_offset);
-			const text* bbf_db_name_ptr = (const text*) (tuple_data_ptr + Form_sysdatabases_name_offset);
-			dbname = text_to_cstring(bbf_db_name_ptr);
+			bbf_db = (Form_sysdatabases) GETSTRUCT(tuple);
+			dbname = text_to_cstring(&(bbf_db->name));
 
-			create_schema_if_not_exists(*bbf_db_dbid_ptr, dbname, "guest", "guest");
+			create_schema_if_not_exists(bbf_db->dbid, dbname, "guest", "guest");
 
 			tuple = heap_getnext(scan, ForwardScanDirection);
 		}

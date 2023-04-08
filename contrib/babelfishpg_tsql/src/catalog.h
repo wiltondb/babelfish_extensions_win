@@ -42,7 +42,6 @@ extern Oid	sysdatabaese_idx_name_oid;
 #define Anum_sysdatabaese_crdate 7
 
 /* MUST comply with babelfish_sysdatabases table */
-#ifndef _MSC_VER
 typedef struct FormData_sysdatabases
 {
 	int16		dbid;
@@ -51,27 +50,15 @@ typedef struct FormData_sysdatabases
 	NameData	owner;
 	NameData	default_collation;
 	text		name;
+#ifndef _MSC_VER
 	TimestampTz crdate;
 	text		properties;
+#endif // !_MSC_VER
 } FormData_sysdatabases;
 
 typedef FormData_sysdatabases *Form_sysdatabases;
-#else // _MSC_VER
-static size_t Form_sysdatabases_dbid_offset = 0;
-static size_t Form_sysdatabases_owner_offset =
-	sizeof(int32) + // dbid
-	sizeof(int32) + // status
-	sizeof(int32);  // status2
-static size_t Form_sysdatabases_name_offset =
-	sizeof(int32) +    // dbid
-	sizeof(int32) +    // status
-	sizeof(int32) +    // status2
-	sizeof(NameData) + // owner
-	sizeof(NameData);  // default_collation
-#endif // !_MSC_VER
 
 /* MUST comply with babelfish_authid_login_ext table */
-#ifndef _MSC_VER
 typedef struct FormData_authid_login_ext
 {
 	NameData	rolname;
@@ -83,24 +70,14 @@ typedef struct FormData_authid_login_ext
 	TimestampTz create_date;
 	TimestampTz modify_date;
 	VarChar		default_database_name;
+#ifndef _MSC_VER
 	VarChar		default_language_name;
 	Jsonb		properties;
 	VarChar		orig_loginname;
+#endif // !_MSC_VER
 } FormData_authid_login_ext;
 
 typedef FormData_authid_login_ext *Form_authid_login_ext;
-#else // _MSC_VER
-static size_t Form_authid_login_ext_rolname_offset = 0;
-static size_t Form_authid_login_ext_default_database_name_offset =
-	sizeof(NameData) + 		// rolname
-	sizeof(int32) + 			// is_disabled
-	sizeof(int64) +				// type
-	sizeof(int32) +				// credential_id
-	sizeof(int32) + 			// owning_principal_id
-	sizeof(int32) + 			// is_fixed_role
-	sizeof(TimestampTz) +	// create_date 
-	sizeof(TimestampTz);	// modify_date 
-#endif // !_MSC_VER
 
 #define InvalidDbid 0
 #define DbidIsValid(id)  ((bool) ((id) != InvalidDbid))
@@ -174,12 +151,12 @@ extern void alter_user_can_connect(bool is_grant, char *user_name, char *db_name
 extern bool guest_role_exists_for_db(const char *dbname);
 
 /* MUST comply with babelfish_authid_user_ext table */
-#ifndef _MSC_VER
 typedef struct FormData_authid_user_ext
 {
 	NameData	rolname;
 	NameData	login_name;
 	BpChar		type;
+#ifndef _MSC_VER
 	int32		owning_principal_id;
 	int32		is_fixed_role;
 	int32		authentication_type;
@@ -193,15 +170,10 @@ typedef struct FormData_authid_user_ext
 	VarChar		default_language_name;
 	VarChar		authentication_type_desc;
 	int32		user_can_connect;
+#endif // !_MSC_VER
 } FormData_authid_user_ext;
 
 typedef FormData_authid_user_ext *Form_authid_user_ext;
-#else // _MSC_VER
-static size_t Form_authid_user_ext_rolname_offset = 0;
-static size_t Form_authid_user_ext_type_offset = 
-	sizeof(NameData) + // rolname
-	sizeof(NameData);  // login_name
-#endif // !_MSC_VER
 
 /*****************************************
  *			VIEW_DEF
@@ -226,22 +198,21 @@ extern HeapTuple search_bbf_view_def(Relation bbf_view_def_rel, int16 dbid,
 extern bool check_is_tsql_view(Oid relid);
 extern void clean_up_bbf_view_def(int16 dbid);
 
-#ifndef _MSC_VER
 typedef struct FormData_bbf_view_def
 {
 	int16		dbid;
 	VarChar		schema;
+#ifndef _MSC_VER
 	VarChar		object_name;
 	text		definition;
 	uint64		flag_validity;
 	uint64		flag_values;
 	Timestamp	create_date;
 	Timestamp	modify_date;
+#endif // !_MSC_VER
 }			FormData_bbf_view_def;
 
 typedef FormData_bbf_view_def * Form_bbf_view_def;
-#else // _MSC_VER
-#endif // !_MSC_VER
 
 /*****************************************
  *			FUNCTION_EXT
@@ -269,11 +240,11 @@ extern Oid	get_bbf_function_ext_idx_oid(void);
 extern HeapTuple get_bbf_function_tuple_from_proctuple(HeapTuple proctuple);
 extern void clean_up_bbf_function_ext(int16 dbid);
 
-#ifndef _MSC_VER
 typedef struct FormData_bbf_function_ext
 {
 	NameData	schema;
 	NameData	funcname;
+#ifndef _MSC_VER
 	VarChar		orig_name;
 	text		function_signature;
 	text		default_positions;
@@ -282,14 +253,10 @@ typedef struct FormData_bbf_function_ext
 	Timestamp	create_date;
 	Timestamp	modify_date;
 	text		definition;
+#endif // !_MSC_VER
 } FormData_bbf_function_ext;
 
 typedef FormData_bbf_function_ext *Form_bbf_function_ext;
-#else // _MSC_VER
-static size_t Form_bbf_function_ext_schema_offset = 0;
-static size_t Form_bbf_function_ext_funcname_offset =
-	sizeof(NameData); // schema
-#endif // !_MSC_VER
 
 /*****************************************
  *			DOMAIN MAPPING
