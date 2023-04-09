@@ -555,7 +555,7 @@ set_var_from_str(const char *str, const char *cp, NumericVar *dest)
 		char	   *endptr;
 
 		cp++;
-		exponent = strtol(cp, &endptr, 10);
+		exponent = strtoll(cp, &endptr, 10);
 		if (endptr == cp)
 			ereport(ERROR,
 					(errcode(ERRCODE_INVALID_TEXT_REPRESENTATION),
