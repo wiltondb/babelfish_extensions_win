@@ -222,7 +222,7 @@ ApplockPrintMessage(const char *fmt,...)
                                                     (void *) &(ID), \
                                                     HASH_REMOVE, NULL); \
         if (hentry == NULL) \
-		    ApplockPrintMessage("failed to delete app lock entry for key %ld", ID); \
+		    ApplockPrintMessage("failed to delete app lock entry for key %lld", ID); \
 } while(0)
 
 #define ApplockSetLockTimeout(val) \

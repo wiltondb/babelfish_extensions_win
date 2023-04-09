@@ -110,7 +110,7 @@ BulkCopy(BulkCopyStmt *stmt, uint64 *processed)
 	{
 		/* For exact row which caused error, we have BulkCopyErrorCallback. */
 		elog(WARNING, "Error while executing Bulk Copy. Error occured while processing at "
-			 "implicit Batch number: %d, Rows inserted in total: %ld", stmt->cur_batch_num, stmt->rows_processed);
+			 "implicit Batch number: %d, Rows inserted in total: %lld", stmt->cur_batch_num, stmt->rows_processed);
 		if (rel != NULL)
 			table_close(rel, NoLock);
 		PG_RE_THROW();
@@ -118,8 +118,8 @@ BulkCopy(BulkCopyStmt *stmt, uint64 *processed)
 	PG_END_TRY();
 
 	elog(DEBUG2, "Bulk Copy Progress: Successfully inserted implicit number of batches: %d, "
-		 "number of rows inserted in total: %ld, "
-		 "number of rows inserted in current batch: %ld",
+		 "number of rows inserted in total: %lld, "
+		 "number of rows inserted in current batch: %lld",
 		 stmt->cur_batch_num, stmt->rows_processed, *processed);
 
 	if (rel != NULL)
@@ -233,7 +233,7 @@ BulkCopyErrorCallback(void *arg)
 {
 	BulkCopyState cstate = (BulkCopyState) arg;
 
-	errcontext("Bulk Copy for %s, row: %ld  (doesn't take implicit batching into consideration)",
+	errcontext("Bulk Copy for %s, row: %lld  (doesn't take implicit batching into consideration)",
 			   cstate->cur_relname, cstate->cur_rowno);
 }
 
