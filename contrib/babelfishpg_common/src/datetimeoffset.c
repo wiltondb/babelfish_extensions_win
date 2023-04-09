@@ -124,7 +124,16 @@ datetimeoffset_in(PG_FUNCTION_ARGS)
 	if (dterr != 0)
 		DateTimeParseError(dterr, str, "timestamp with time zone");
 
-	datetimeoffset->tsql_tz = (int16) (tz / 60);
+	/*
+	 * When time zone offset it not specified in input string
+	 * DecodeDateTime sets it to the session time zone.
+	 * In T-SQL it must default to '+00:00', not to session time zone.
+	 */
+	if (nf > 0 && ftype[nf - 1] == DTK_TZ)
+		datetimeoffset->tsql_tz = (int16) (tz / 60);
+	else
+		datetimeoffset->tsql_tz = 0;
+
 	tz = 0;
 	switch (dtype)
 	{
@@ -357,15 +366,14 @@ datetimeoffset_pl_interval(PG_FUNCTION_ARGS)
 	Interval   *span = PG_GETARG_INTERVAL_P(1);
 	tsql_datetimeoffset *result = (tsql_datetimeoffset *) palloc(DATETIMEOFFSET_LEN);
 	Timestamp	tmp = df->tsql_ts;
-	int			tz;
 
 	if (span->month != 0)
 	{
 		struct pg_tm tt,
 				   *tm = &tt;
 		fsec_t		fsec;
-
-		if (timestamp2tm(tmp, &tz, tm, &fsec, NULL, NULL) != 0)
+		
+		if (timestamp2tm(tmp, NULL, tm, &fsec, NULL, NULL) != 0)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATETIME_VALUE_OUT_OF_RANGE),
 					 errmsg("datetimeoffset out of range")));
@@ -386,8 +394,7 @@ datetimeoffset_pl_interval(PG_FUNCTION_ARGS)
 		if (tm->tm_mday > day_tab[isleap(tm->tm_year)][tm->tm_mon - 1])
 			tm->tm_mday = (day_tab[isleap(tm->tm_year)][tm->tm_mon - 1]);
 
-		tz = 0;
-		if (tm2timestamp(tm, fsec, &tz, &tmp) != 0)
+		if (tm2timestamp(tm, fsec, NULL, &tmp) != 0)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATETIME_VALUE_OUT_OF_RANGE),
 					 errmsg("datetimeoffset out of range")));
@@ -400,7 +407,7 @@ datetimeoffset_pl_interval(PG_FUNCTION_ARGS)
 		fsec_t		fsec;
 		int			julian;
 
-		if (timestamp2tm(tmp, &tz, tm, &fsec, NULL, NULL) != 0)
+		if (timestamp2tm(tmp, NULL, tm, &fsec, NULL, NULL) != 0)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATETIME_VALUE_OUT_OF_RANGE),
 					 errmsg("datetimeoffset out of range")));
@@ -409,15 +416,14 @@ datetimeoffset_pl_interval(PG_FUNCTION_ARGS)
 		julian = date2j(tm->tm_year, tm->tm_mon, tm->tm_mday) + span->day;
 		j2date(julian, &tm->tm_year, &tm->tm_mon, &tm->tm_mday);
 
-		tz = 0;
-		if (tm2timestamp(tm, fsec, &tz, &tmp) != 0)
+		if (tm2timestamp(tm, fsec, NULL, &tmp) != 0)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATETIME_VALUE_OUT_OF_RANGE),
 					 errmsg("datetimeoffset out of range")));
 	}
 
 	tmp += span->time;
-	result->tsql_ts = tmp + df->tsql_tz * USECS_PER_MINUTE;
+	result->tsql_ts = tmp;
 	result->tsql_tz = df->tsql_tz;
 	CheckDatetimeoffsetRange(result);
 
@@ -641,11 +647,10 @@ datetimeoffset_date(PG_FUNCTION_ARGS)
 	struct pg_tm tt,
 			   *tm = &tt;
 	fsec_t		fsec;
-	int			tz;
 	DateADT		result;
 
 	datetimeoffset_timestamp_internal(df, &time);
-	if (timestamp2tm(time, &tz, tm, &fsec, NULL, NULL) != 0)
+	if (timestamp2tm(time, NULL, tm, &fsec, NULL, NULL) != 0)
 		ereport(ERROR,
 				(errcode(ERRCODE_DATETIME_VALUE_OUT_OF_RANGE),
 				 errmsg("datetimeoffset out of range")));
