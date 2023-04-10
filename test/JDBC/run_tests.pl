@@ -21,6 +21,10 @@ use File::Slurp qw(append_file);
 use File::Spec::Functions qw(catfile);
 
 my $jdbc_dir = dirname(abs_path(__FILE__));
+my $debug = 0;
+if (defined($ARGV[0]) && (uc($ARGV[0]) eq 'DEBUG')) {
+  $debug = 1;
+}
 
 sub runcmd {
   my $cmd = shift;
@@ -61,12 +65,15 @@ runcmd("$psql -d jdbc_testdb -c \"SET allow_system_table_mods = ON;\"");
 runcmd("$psql -d jdbc_testdb -c \"CREATE EXTENSION IF NOT EXISTS babelfishpg_tds CASCADE;\"");
 runcmd("$psql -d jdbc_testdb -c \"GRANT ALL ON SCHEMA sys to jdbc_user;\"");
 runcmd("$psql -d jdbc_testdb -c \"ALTER SYSTEM SET babelfishpg_tsql.database_name = 'jdbc_testdb';\"");
-runcmd("$psql -d jdbc_testdb -c \"ALTER DATABASE jdbc_testdb SET babelfishpg_tsql.migration_mode = 'multi-db';\"");
+#runcmd("$psql -d jdbc_testdb -c \"ALTER DATABASE jdbc_testdb SET babelfishpg_tsql.migration_mode = 'multi-db';\"");
 runcmd("$psql -d jdbc_testdb -c \"SELECT pg_reload_conf();\"");
 runcmd("$psql -d jdbc_testdb -c \"CALL sys.initialize_babelfish('jdbc_user');\"");
 
-#runcmd("mvn test -Dmaven.surefire.debug=true");
-runcmd("mvn test", "best effort");
+if ($debug) {
+  runcmd("mvn test -Dmaven.surefire.debug=true", "best effort");
+} else {
+  runcmd("mvn test", "best effort");
+}
 
 runcmd("$pg_ctl stop -D $pg_data -l $pg_log");
 print("Test run completed\n");

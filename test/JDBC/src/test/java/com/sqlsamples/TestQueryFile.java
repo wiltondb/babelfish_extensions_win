@@ -22,7 +22,7 @@ import static com.sqlsamples.Statistics.sla;
 
 public class TestQueryFile {
     
-    static String timestamp = new SimpleDateFormat("dd_MM_yyyy_mm_ss_sSSS").format(new Date());
+    static String timestamp = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss_SSS").format(new Date());
     static String generatedFilesDirectoryPath = testFileRoot + "/expected/";
     static String sqlServerGeneratedFilesDirectoryPath = testFileRoot + "/sql_expected/";
     static String outputFilesDirectoryPath = testFileRoot + "/output/";

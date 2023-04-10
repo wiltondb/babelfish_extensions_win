@@ -274,7 +274,7 @@ public class batch_run {
                     // execute statement as a normal SQL statement
                     if (isSQLFile) {
                         if (!strLine.equalsIgnoreCase("GO")) {
-                            sqlBatch.append(strLine).append(System.lineSeparator());
+                            sqlBatch.append(strLine).append("\n");
                             continue;
                         } else {
                             SQL = sqlBatch.toString();

@@ -1,3 +1,4 @@
+-- sla 100000
 -- Tests for OUTPUT with INSERT statement --
 create table t1(num integer, word varchar(10));
 go
