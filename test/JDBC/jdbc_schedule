@@ -10,8 +10,6 @@
 
 all
 
-#-~~ERROR (Message: invalid value for parameter "babelfishpg_tsql.dump_restore_min_oid": "4294967296")~~
-ignore#!#BABEL-3613-vu-verify
 ignore#!#babel_collation
 ignore#!#babel_collection
 ignore#!#currency_symbol
