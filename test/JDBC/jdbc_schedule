@@ -8,9 +8,7 @@
 #    new line
 # 6. If you want the framework to not run certain files, use: ignore#!#<test name>
 
-#all
-
-ignore#!#currency_symbol
+all
 
 # pg_hint_plan
 ignore#!#BABEL-3291
