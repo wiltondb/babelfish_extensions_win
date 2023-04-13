@@ -573,7 +573,7 @@ Mülle
 ~~END~~
 
 -- test catalog
-select * from sys.fn_helpcollations() order by name;
+select name collate "C", description from sys.fn_helpcollations() order by name;
 GO
 ~~START~~
 varchar#!#varchar
@@ -729,7 +729,7 @@ tsql
 ~~END~~
 
 -- test collation list sys table
-SELECT collation_name, l1_priority, l2_priority, l3_priority, l4_priority, l5_priority FROM sys.babelfish_collation_list() order by collation_name;
+SELECT collation_name collate "C", l1_priority, l2_priority, l3_priority, l4_priority, l5_priority FROM sys.babelfish_collation_list() order by collation_name;
 GO
 ~~START~~
 text#!#int#!#int#!#int#!#int#!#int
