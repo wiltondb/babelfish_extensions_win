@@ -47,3 +47,4 @@ contrib/babelfishpg_tds/build
 contrib/babelfishpg_tsql/antlr/build
 contrib/babelfishpg_tsql/build
 contrib/babelfishpg_tsql/src/backend_parser/lex.backup
+.vscode
