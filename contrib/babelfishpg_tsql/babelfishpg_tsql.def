@@ -225,6 +225,7 @@ EXPORTS
     suser_id
     suser_name
     user_id
+    user_id_noarg
     user_name
     
     ; session.c
